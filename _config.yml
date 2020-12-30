@@ -1,0 +1,32 @@
+# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
+
+paginate: 10 # pagination based on number of posts
+paginate_path: "page:num"
+exclude: ["README.md"] # files to exclude
+highlighter: pygments
+markdown: redcarpet
+encoding: utf-8
+
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      title: K's Journey
+
+description: Kresnik的随想和技术空间
+author:
+  name: Kresnikwang
+  email: kresnikwang@gmail.com
+  github: kresnikwang
+  twitter: kresnikwang
+  instagram: kresnikwang
+  linkedin: kris-yanning-wang/88/a07/945
+  bio: Kresnik的随想和技术空间
+  email_md5: 2baf659d886c56f600e3df8b4b9068f1
+
+rss_path: feed.xml
+categories_path: categories.html
+tags_path: tags.html
+
+BASE_PATH:
