@@ -3,7 +3,7 @@
 paginate: 10 # pagination based on number of posts
 paginate_path: "page:num"
 exclude: ["README.md"] # files to exclude
-highlighter: pygments
+#highlighter: pygments
 markdown: kramdown
 encoding: utf-8
 
@@ -16,14 +16,12 @@ defaults:
 
 description: Kresnik的随想和技术空间
 author:
-  name: Kresnikwang
-  email: kresnikwang@gmail.com
-  github: kresnikwang
-  twitter: kresnikwang
-  instagram: kresnikwang
-  linkedin: kris-yanning-wang/88/a07/945
-  bio: Kresnik的随想和技术空间
-  email_md5: 2baf659d886c56f600e3df8b4b9068f1
+  name: Zijun Huang
+  email: ripleyuk@outlook.com
+  github: ririripley
+  instagram: ririripley
+  linkedin: https://www.linkedin.com/in/zijun-huang-4b54b0180/
+  bio: Ripley's Blog
 
 rss_path: feed.xml
 categories_path: categories.html
