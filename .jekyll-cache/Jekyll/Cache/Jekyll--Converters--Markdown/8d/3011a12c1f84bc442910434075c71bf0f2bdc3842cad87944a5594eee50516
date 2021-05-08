@@ -1,0 +1,15 @@
+I"�<p>A Shopping Site Demo 购物网站（精美图片放大镜，底部图片全屏浏览）</p>
+
+<p><em>Demo Link: </em><a href="http://kresnik.co/demo/demo4">http://kresnik.co/demo/demo4</a></p>
+
+<p>A shopping site demo is designed for a product display based website, combining some latest tricks in **Html5, JavaScript/jQuery **to created some interesting effects.</p>
+
+<p>Based on bootstrap framework, including picture <em>magnify effect</em> on the main picture on the left.</p>
+
+<p><a href="http://kresnik.co/wp-content/uploads/2015/04/magnify.jpg"><img src="http://kresnik.co/wp-content/uploads/2015/04/magnify-300x189.jpg" alt="magnify" /></a></p>
+
+<p>And this site also have another picture show style by creating a new layer to show the pics in the full screen.(with key board control)</p>
+
+<p><a href="http://kresnik.co/wp-content/uploads/2015/04/layer.jpg"><img src="http://kresnik.co/wp-content/uploads/2015/04/layer-300x178.jpg" alt="layer" /></a></p>
+
+:ET

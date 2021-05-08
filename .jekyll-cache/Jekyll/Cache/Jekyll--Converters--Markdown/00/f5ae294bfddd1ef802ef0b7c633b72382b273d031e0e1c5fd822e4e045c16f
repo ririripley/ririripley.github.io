@@ -1,0 +1,14 @@
+I"I<p>用js在对网页里面没有的元素进行创建，然后就能支持html5元素了</p>
+
+<p><code class="language-plaintext highlighter-rouge">
+    &lt;script language="JavaScript"&gt;
+    (function(){ 
+       if(!/*@cc_on!@*/0) return; 
+       var e = "abbr,article,aside,audio,bb,canvas,datagrid,datalist,details,dialog, eventsource,figure,footer,hgroup,header,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=0,length=e.length; 
+       while(i&lt;length ){ 
+            document.createElement(e[i++]) 
+       } 
+    })();
+    &lt;/script&gt;
+   </code></p>
+:ET

@@ -1,0 +1,48 @@
+I"�<p>Actually I tried different Javascript function to do this, they are note good to solve the problem.</p>
+
+<p>Normally you can used Javascript function below to solve the problem:</p>
+
+<p>一般可以用以下的js function来增加和删除已有的class来解决这个问题：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">.nav a</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">click</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+   <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">.nav</span><span class="dl">"</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="dl">"</span><span class="s2">.active</span><span class="dl">"</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">);</span>
+   <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Unfortunately, I found that the JS I used may conflict with Bootstrap JS. I can only click the link but the page didn’t go to the new link address. In the end I used HTML within php function to switch class from last “&lt;<strong>li</strong>&gt;” to current “&lt;<strong>li</strong>&gt;”.</p>
+
+<p>可能是bootstrap的js跟我写的这个js功能有冲突，在我在使用时只有class的改变，链接高亮的部分切换到新的tab，但是页面并没有真的链接过去。所有我认为在bootsrap里面用php来进行操作可能更好，不会和现有的所有js功能相冲突。</p>
+
+<ul>
+  <li>Call a php function inline within the markup passing in the links destination request url</li>
+</ul>
+
+<p>markup passing in the links destination request url</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;li</span> <span class="cp">&lt;?=</span><span class="nf">echoActiveClassIfRequestMatches</span><span class="p">(</span><span class="s2">"home"</span><span class="p">)</span><span class="cp">?&gt;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"home.php"</span><span class="nt">&gt;</span>Search<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="cp">&lt;?=</span><span class="nf">echoActiveClassIfRequestMatches</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span><span class="cp">?&gt;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"about.php"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+</code></pre></div></div>
+
+<h3 id="php-function">PHP function</h3>
+
+<p>The php function simple needs to compare the passed in request uri and if it matches the current page being rendered output active class.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;</span> <span class="err">?</span><span class="na">php</span> 
+<span class="na">function</span> <span class="na">echoActiveClassIfRequestMatches</span><span class="err">($</span><span class="na">requestUri</span><span class="err">)</span>
+<span class="err">{</span>
+    <span class="err">$</span><span class="na">current_file_name = </span><span class="s">basename($_SERVER['REQUEST_URI'],</span> <span class="err">".</span><span class="na">php</span><span class="err">");</span>
+ 
+    <span class="na">if</span> <span class="err">($</span><span class="na">current_file_name =</span><span class="s">=</span> <span class="err">$</span><span class="na">requestUri</span><span class="err">)</span>
+        <span class="na">echo</span> <span class="err">'</span><span class="na">class=</span><span class="s">"active"</span><span class="err">';</span>
+<span class="err">}</span>
+<span class="err">?</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+:ET

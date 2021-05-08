@@ -6,24 +6,25 @@ exclude: ["README.md"] # files to exclude
 #highlighter: pygments
 markdown: kramdown
 encoding: utf-8
-
+timezone: Asia/Shanghai
 defaults:
   -
     scope:
       path: "" # empty string for all files
     values:
-      title: K's Journey
+      title: Posts 
 
-description: Kresnik的随想和技术空间
+description: Ripley's Tech-blog
 author:
-  name: Zijun Huang
+  name: ZijunHuang
   email: ripleyuk@outlook.com
   github: ririripley
   instagram: ririripley
-  linkedin: https://www.linkedin.com/in/zijun-huang-4b54b0180/
+  linkedin: zijun-huang-4b54b0180/
   bio: Ripley's Blog
+  facebook: HuangZijunisbaobao	
 
-rss_path: feed.xml
+rss_path: wechat_ripley.html
 categories_path: categories.html
 tags_path: tags.html
 
