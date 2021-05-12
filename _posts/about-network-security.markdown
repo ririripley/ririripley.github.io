@@ -3,7 +3,7 @@ author: ripley
 comments: false
 date: 2021-05-12 16:02:08+00:00
 layout: post
-slug: network-security-HTTPs%e6%9d%83%e9%99%90%e4%bf%ae%e5%a4%8d
+slug: about-network-security
 title: About Network Security
 wordpress_id: 304
 categories:
