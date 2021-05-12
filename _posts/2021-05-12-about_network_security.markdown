@@ -24,28 +24,28 @@ tags:
 Cryptography就是：
 ```  
 plaintext ----Encryption Algorithm + key---> ciphertext
-K<sub>B</sub>(k<sub>A</sub>(m)) = m
-K<sub>A</sub>(m): ciphertext encrypted using K<sub>A</sub>
+K_B(K_A(m)) = m
+K_A(m): ciphertext encrypted using K_A
 ```
 ## symmetric key systems
-Ripley's and Zijun's keys are identical and secret.
+Ripley's and Zijun's keys are identical and secret.  
 ### Example
-DES
-AES
+DES  
+AES  
 
 ## public key systems
-A pair of keys is used. The public key is known to both Ripley and Zijun (Actually, known to the whole world.).
-The private key is only known to either Zijun or Ripley.
+A pair of keys is used. The public key is known to both Ripley and Zijun (Actually, known to the whole world.).  
+The private key is only known to either Zijun or Ripley.  
 ### Example
-RSA
-包含两个部分：
-(1) choice of public key and private key,
+RSA  
+包含两个部分：  
+(1) choice of public key and private key,  
 (2) encryption and dectryption algorithm
 
 ### concerns about public key cryptography
-(1)任何人可以宣称自己是Ripley然后向Zijun发送message.
+(1)任何人可以宣称自己是Ripley然后向Zijun发送message.  
 ----> 怎么办？ Solution: Digital Signature (绑定sender和message)
-(2) time-consuming (DES is at least 100 times faster than RSA in hardware.)
+(2) time-consuming (DES is at least 100 times faster than RSA in hardware.)  
 ----> 怎么办？ Solution: Combination with symmetric key cryptography
 
 
