@@ -3,7 +3,7 @@ author: ripley
 comments: false
 date: 2021-05-12 16:02:08+00:00
 layout: post
-slug: about-network-security
+slug: about_network_security
 title: About Network Security
 wordpress_id: 304
 categories:
