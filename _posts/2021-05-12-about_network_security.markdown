@@ -10,7 +10,7 @@ categories:
 - Tech
 tags:
 ---
-# End-point Communication
+## **End-point Communication**
 网络上的End-point communication需要保证以下几个方面:
 (1）Confidentiality
 (2) Authetication
@@ -19,13 +19,13 @@ tags:
 (1) 读message
 (2) 修改message
 
-# Cryptography
+## **Cryptography**
 
 Cryptography就是：
 ```  
 plaintext ----Encryption Algorithm + key---> ciphertext
-K_B(K_A(m)) = m
-K_A(m): ciphertext encrypted using K_A
+$K_B(K_A(m)) = m$
+$K_A(m)$: ciphertext encrypted using $K_A$
 ```
 ## symmetric key systems
 Ripley's and Zijun's keys are identical and secret.  
