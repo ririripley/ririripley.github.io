@@ -1,27 +1,54 @@
 ---
-author: kresnikwang
-comments: true
-date: 2015-05-25 07:43:08+00:00
+author: ripley
+comments: false
+date: 2021-05-12 16:02:08+00:00
 layout: post
-slug: mac-nodejs-npm-%e6%9d%83%e9%99%90%e4%bf%ae%e5%a4%8d
-title: Mac nodejs npm 安装-global包 权限修复
+slug: network-security-HTTPs%e6%9d%83%e9%99%90%e4%bf%ae%e5%a4%8d
+title: About Network Security
 wordpress_id: 304
 categories:
 - Tech
 tags:
-- javascript
-- nodejs
-- npm
 ---
+# End-point Communication
+网络上的End-point communication需要保证以下几个方面:
+(1）Confidentiality
+(2) Authetication
+(3) Integrity
+而网络攻击者可能会进行以下攻击:
+(1) 读message
+(2) 修改message
 
-最近换成在mac上面玩NodeJs和npm，结果遇到了权限问题。顺利安装玩node和npm之后用npm 的-global一直安装不上package。
- 
+# Cryptography
+
+Cryptography就是：
 ```  
-npm ERR!   errno: 3,
-npm ERR!   code: 'EACCES'
-```   
+plaintext ----Encryption Algorithm + key---> ciphertext
+K<sub>B</sub>(k<sub>A</sub>(m)) = m
+K<sub>A</sub>(m): ciphertext encrypted using K<sub>A</sub>
+```
+## symmetric key systems
+Ripley's and Zijun's keys are identical and secret.
+### Example
+DES
+AES
 
-首先可以通过在系统下重构一下npm，通过从最新的git抓取来make install
+## public key systems
+A pair of keys is used. The public key is known to both Ripley and Zijun (Actually, known to the whole world.).
+The private key is only known to either Zijun or Ripley.
+### Example
+RSA
+包含两个部分：
+(1) choice of public key and private key,
+(2) encryption and dectryption algorithm
+
+### concerns about public key cryptography
+(1)任何人可以宣称自己是Ripley然后向Zijun发送message.
+----> 怎么办？ Solution: Digital Signature (绑定sender和message)
+(2) time-consuming (DES is at least 100 times faster than RSA in hardware.)
+----> 怎么办？ Solution: Combination with symmetric key cryptography
+
+
 
 ```   
 git clone http://github.com/isaacs/npm.git
