@@ -14,7 +14,7 @@ defaults:
     values:
       title: Posts 
 
-description: Ripley's Tech-blog
+description: Ripley's Blog
 author:
   name: ZijunHuang
   email: ripleyuk@outlook.com
