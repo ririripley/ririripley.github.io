@@ -56,22 +56,23 @@ RSA
 (2) time-consuming (DES is at least 100 times faster than RSA in hardware.)    
 ----> 怎么办？ Solution: Combination with symmetric key cryptography  
 ```
-#### **keys**
-```
-(1)session key  
-(2)premaster key  
-(3) 
-```   
+
 
 ### **Integrity:  Cryptography**
 
-#### **Cryptographic Hash Functions(goal : Ensure Message Not to be tampered)**
+####  **Two Methods to ensure message integrity**
+```
+To ensure message integrity:     
+OSPF(routing protocol) use Mac.    
+PGP(email system) use digital signature.
+```
+    
+#### **1.1 Cryptographic Hash Functions(goal : Ensure Message Not to be tampered)**
 
 ```   
 A crytographic hasn funciton should satisfy:  
 If x == y : H(x) = H(y)  
 x != y : H(x) != H(y)  
-    
 ```
 同时， x (arbitraty length) ---Hash Function---> H(x) (fixed length)      
 ##### **Example**
@@ -80,7 +81,7 @@ SHA
 仍无法确定发送方是否为发送方本身  
 Solution:   MAC  
   
-#### **Message Authentication Code (MAC) : Ensure the origin of message**
+#### **1.2 Message Authentication Code (MAC) : Ensure the origin of message**
 ```
 双方拥有a shared secret : authentication key  
 MAC = H(message + authentication key)    
@@ -95,7 +96,7 @@ MAC = H(message + authentication key)
 Solution:  + 加密然后发送   
 
 
-#### **Digital Signature**
+#### **2.Digital Signature**
 证明某人签署了材料  
 思路：  
 ```
@@ -106,32 +107,104 @@ A: The answer is no. In this case, the key will be no more unique to the signer.
 可采用public-key cryptography:  
 K<sub>+</sub>(K<sub>-</sub>(m)) = m    
 既保证了消息的origin, 也保证了消息not to be tampered. 可见 public-key cryptography满足了message integrity 的要求。  
-signature =  K<sub>-</sub>(m)  
+signature =  K<sub>-</sub>(m) 
+ 
 ##### **Issue**
-Expensive Computation  
-Solution: 引入hash functions    
-signature =  K<sub>-</sub>(H(message)) (H(m) is of fixed-length, leading to less computation.)  
-发送方发送: message + signature  
-接收方接收， then check H(message) ?=  K<sub>+</sub>signature.  
-  
-  
-
-
-
-
-sudo chown -R $USER /usr/local
-//use for local user
-```    
-
-或者用另一种更适合于-global安装的修改方式。
-
+1. Expensive Computation      
+Solution: 引入hash functions        
+signature =  K<sub>-</sub>(H(message)) (H(m) is of fixed-length, leading to less computation.)        
+发送方发送: message + signature.    
+接收方接收， then check H(message) ?=  K<sub>+</sub>signature.      
+2. Whehther the public key belongs to the real owner?   
+Public Key Certification  
+> certifying that a public key belongs to a specified entity  
 ```
-sudo chown -R `whoami` ~/.npm
-//better for -global install
+Solution:  
+Certification Authority (CA) 负责 把public key 和 entity 绑定    
+(1）创建一个certificate, 包含 public key 和 owner 独有的信息  
+(2) digitally sign the certificate  
+```
+![avatar](https://ririripley.github.io/assets/img/table8_4Fields_in_the_certificate.png)
+       图片参考文献[1]  
+   
+可见certificate里面包含了owner的public key, public key algorithm.  
 
 
-这样之后你再试试跑nodeschool上面的教程试试看，应该已经可行了。
+### **Network Attack**
+```    
+1. Playback Attack    
+solution : adding Nonces (which will never be used again)    
+MAC = H(message + authentication key + nonce)  
+```
+![avatar](https://ririripley.github.io/assets/img/Fig_8_15_playback_attack.png)
+       图片参考文献[1]
+  
+```
+2. Man-in-the-middle Attack  
+solution :  Public Key Certification     
+```       
+![avatar](https://ririripley.github.io/assets/img/fig_8_19_man_in_the_middle_attack.png)
+       图片参考文献[1]        
+  
+ 
+### **Case Study: securing email**
+Ripley ---send messages to ----- Zijun          
+
+Ripley:   
+(1)Ripley's private key:  K<sub>A</sub><sup>-</sup>      
+(2)K<sub>S</sub>: symmetric key  
+(3)H: hash function    
+(4)K<sub>B</sub> : Zijun's public key  
+public key : authentication  
+symmetric key: confidentiality  
+hash function: efficient computation  
+ 
+![avatar](https://ririripley.github.io/assets/img/fig_8_20_email_sys_one.png)
+       图片参考文献[1]
+
+### **Case Study: Secure Sockets Layer (SSL)**
+![avatar](https://ririripley.github.io/assets/img/Fig_8_25SSL.png)
+       图片参考文献[1]
+从程序员的角度，SSL跟TCP一样提供了各种socket API, 虽然SSL实际在应用层。  
+
+
+#### **SSL Handshake**    
+![avatar](https://ririripley.github.io/assets/img/SSL_handshake.jpeg)
+        图片参考文献[2]  
+Explanation[3]:          
+``` 
+1. client sends: A list of cryptographic algorithms + A client nonce (clear text)  
+2. server sends: choices including the symmetric algorithm, the public key algorithm, the MAC algorithm + server nonce (clear text)  
+3. server sends: certficate  
+4. server sends: +  Diffie-Hellman算法以及相关参数(服务端随机生成一个整数s，计算pubkey_s = s * G)，生成服务端pubkey，发送给客户端)       
+4. client verifies the certificate(public key解密 + 核对内容， 获得server public key), 此时客户端拥有 client_nonce, server_nonce 
+以及pubkey_s, 可以计算出PremasterSecret以及master key.  
+5. client sends:  Diffie-Hellman算法以及相关参数(客户端随机生成一个整数c，计算pubkey_c = c * G)，生成客户端pubkey，发送给服务端)  
+6. 此时服务端拥有 client_nonce, server_nonce 以及pubkey_c, 可以计算出PremasterSecret以及master key.      
+```
+服务端确定了密钥协商算法为“EC Diffie-Hellman”，发送给客户端。现在两端都知道了使用的是哪个曲线参数（椭圆曲线E、阶N、基点G）。   
+
+premaster secret 计算公式: 用于生成master secret    
+> PreMasterSecret：Q = pubkey_s * c = c(s * G)    
+>  PreMasterSecret：Q = pubkey_c * s = s(c * G)   
+
+master secret 计算公式 : 用于对称加密   
+> MasterSecret = PRF(PreMasterSecret, "master secret", Client.random || Server.random)   
+#### **keys**
+```
+(1)session key  
+(2)premaster key  
+(3) 
+``` 
+  
+
+  
+ 
+
+
 
 
 ### **参考**
-[1^] James F. Kurose and Keith W. Ross. 2012. Computer Networking: A Top-Down Approach (6th Edition) (6th. ed.). Pearson.
+[1^] James F. Kurose and Keith W. Ross. 2012. Computer Networking: A Top-Down Approach (6th Edition) (6th. ed.). Pearson.  
+[2^] https://www.cnblogs.com/baihuitestsoftware/p/13151293.html  
+[3^] https://xz.aliyun.com/t/1039
