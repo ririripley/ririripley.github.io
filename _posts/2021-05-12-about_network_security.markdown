@@ -11,7 +11,7 @@ categories:
 tags:
 description: Introduction About Network Security  
 ---
-### **End-point Communication**
+## **End-point Communication**
 网络上的End-point communication需要保证以下几个方面:
 ```
 (1）Confidentiality: secret   
@@ -24,7 +24,7 @@ description: Introduction About Network Security
 (2) 修改message  
 ```
 
-### **Confidentiality:  Cryptography**
+### **1. Confidentiality:  Cryptography**
 
 Cryptography就是：
 ```  
@@ -34,13 +34,13 @@ plaintext ----Encryption Algorithm + key---> ciphertext
 K<sub>B</sub>(K<sub>A</sub>(m)) = m   
 K<sub>A</sub>(m): ciphertext encrypted using K<sub>A</sub>  
   
-#### **1. symmetric key systems**
+#### **1.1 symmetric key systems**
 Ripley's and Zijun's keys are identical and secret.  
 ##### **Example**
 DES  
 AES  
 
-#### **2. public key systems**
+#### **1.2 public key systems**
 A pair of keys is used. The public key is known to both Ripley and Zijun (Actually, known to the whole world.).  
 The private key is only known to either Zijun or Ripley.  
 ##### **Example**
@@ -59,7 +59,7 @@ RSA
 ```
 
 
-### **Integrity: Hash Function**
+### **2. Integrity: Hash Function**
 
 ####  **Two Methods to ensure message integrity**
 ```
@@ -68,7 +68,7 @@ To ensure message integrity:
 2. PGP(email system) use digital signature.
 ```
     
-#### **1.1 Cryptographic Hash Functions : Ensure Message Not to be tampered**
+#### **2.1.1 Cryptographic Hash Functions : Ensure Message Not to be tampered**
 
 ```   
 A crytographic hasn funciton should satisfy:  
@@ -82,7 +82,7 @@ SHA
 仍无法确定发送方是否为发送方本身  
 Solution:   MAC  
   
-#### **1.2 Message Authentication Code (MAC) : Ensure the origin of message**
+#### **2.1.2 Message Authentication Code (MAC) : Ensure the origin of message**
 ```
 双方拥有a shared secret : authentication key  
 MAC = H(message + authentication key)    
@@ -97,7 +97,7 @@ MAC = H(message + authentication key)
 Solution:  + 加密然后发送   
 
 
-#### **2.Digital Signature**
+#### **2.2 Digital Signature**
 证明某人签署了材料  
 思路：  
 ```
@@ -131,7 +131,7 @@ Certification Authority (CA) 负责 把public key 和 entity 绑定
 可见certificate里面包含了owner的public key, public key algorithm.  
 
 
-### **Network Attack**
+### **3. Network Attack**
 ```    
 1. Playback Attack    
 solution : adding Nonces (which will never be used again)    
@@ -148,7 +148,7 @@ solution :  Public Key Certification
        图片参考文献[1]        
   
  
-### **Case Study: securing email**
+### **4.1 Case Study: securing email**
 Ripley ---send messages to ----- Zijun          
 
 Ripley:   
@@ -159,19 +159,18 @@ Ripley:
 public key : authentication  
 symmetric key: confidentiality  
 hash function: efficient computation  
- 
 ![avatar](https://ririripley.github.io/assets/img/fig_8_20_email_sys_one.png)
        图片参考文献[1] 
   
   
   
-### **Case Study: Secure Sockets Layer (SSL)**
+### **4.2 Case Study: Secure Sockets Layer (SSL)**
 ![avatar](https://ririripley.github.io/assets/img/Fig_8_25SSL.png)
        图片参考文献[1] 
 从程序员的角度，SSL跟TCP一样提供了各种socket API, 虽然SSL实际在应用层。  
 
 
-#### **SSL Handshake**    
+#### **5. SSL Handshake**    
 ![avatar](https://ririripley.github.io/assets/img/SSL_handshake.jpeg)
        图片参考文献[2]  
   
