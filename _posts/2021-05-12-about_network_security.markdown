@@ -12,14 +12,18 @@ tags:
 ---
 ### **End-point Communication**
 网络上的End-point communication需要保证以下几个方面:
-(1）Confidentiality
-(2) Authetication
-(3) Integrity
-而网络攻击者可能会进行以下攻击:
-(1) 读message
-(2) 修改message
+```
+(1）Confidentiality: secret   
+(2) Authetication  
+(3) Integrity: 消息确实来自某人以及not tampered    
+```
+而网络攻击者可能会进行以下攻击:  
+```
+(1) 读message  
+(2) 修改message  
+```
 
-### **Cryptography**
+### **Confidentiality:  Cryptography**
 
 Cryptography就是：
 ```  
@@ -40,29 +44,51 @@ The private key is only known to either Zijun or Ripley.
 ##### **Example**
 RSA  
 包含两个部分：  
+```
 (1) choice of public key and private key,  
 (2) encryption and dectryption algorithm
-
+```
 ##### **concerns about public key cryptography**
+```
 (1)任何人可以宣称自己是Ripley然后向Zijun发送message.    
 ----> 怎么办？ Solution: Digital Signature (绑定sender和message)  
 (2) time-consuming (DES is at least 100 times faster than RSA in hardware.)    
 ----> 怎么办？ Solution: Combination with symmetric key cryptography  
-
+```
 #### **keys**
-(1)session key
-(2)premaster key
- 
-
-```   
-git clone http://github.com/isaacs/npm.git
-cd npm
-sudo make install
+```
+(1)session key  
+(2)premaster key  
+(3) 
 ```   
 
-之后进行-global的权限修改。
+### **Integrity:  Cryptography**
+
+#### **Cryptographic Hash Functions**
+
+```   
+A crytographic hasn funciton should satisfy:  
+If x == y : H(x) = H(y)  
+x != y : H(x) != H(y)  
     
 ```   
+##### **Example**
+SHA  
+##### **Issue**
+仍无法确定发送方是否为发送方本身  
+Solution:  MAC  
+  
+#### **Message Authentication Code (MAC)**
+```
+双方拥有a shared secret : authentication key  
+```
+![avatar](figure8_9_Message_authentication_code.png)
+图片参考文献[1]
+
+
+
+
+
 sudo chown -R $USER /usr/local
 //use for local user
 ```    
@@ -75,3 +101,7 @@ sudo chown -R `whoami` ~/.npm
 ```   
 
 这样之后你再试试跑nodeschool上面的教程试试看，应该已经可行了。
+
+
+###参考
+[1^] James F. Kurose and Keith W. Ross. 2012. Computer Networking: A Top-Down Approach (6th Edition) (6th. ed.). Pearson.
