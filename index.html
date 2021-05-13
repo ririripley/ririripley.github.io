@@ -7,7 +7,7 @@ tagline:
 {% for post in paginator.posts %}
 
 <article class="home">
-
+<!--// add TIME info of the post-->
 <!--  <span class="post-date">-->
 <!--    {% assign d = post.date | date: "%d" | plus:'0' %}-->
 <!--    {{ post.date | date: "%B" }}-->
@@ -21,7 +21,9 @@ tagline:
 <!--  </span>-->
 
   <h2>
+    <SPAN STYLE="font-size:13.0pt">
     <a href="{{ site.BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+    </SPAN>
   </h2>
 
   <div>
