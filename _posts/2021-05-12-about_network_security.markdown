@@ -82,7 +82,7 @@ Solution:  MAC
 ```
 双方拥有a shared secret : authentication key  
 ```
-![avatar](figure8_9_Message_authentication_code.png)
+![avatar](../assets/img/figure8_9_Message_authentication_code.png)
 图片参考文献[1]
 
 
@@ -98,10 +98,10 @@ sudo chown -R $USER /usr/local
 ```
 sudo chown -R `whoami` ~/.npm
 //better for -global install
-```   
+
 
 这样之后你再试试跑nodeschool上面的教程试试看，应该已经可行了。
 
 
-###参考
+### **参考**
 [1^] James F. Kurose and Keith W. Ross. 2012. Computer Networking: A Top-Down Approach (6th Edition) (6th. ed.). Pearson.
