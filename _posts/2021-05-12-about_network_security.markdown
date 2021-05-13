@@ -27,7 +27,8 @@ tags:
 
 Cryptography就是：
 ```  
-plaintext ----Encryption Algorithm + key---> ciphertext
+plaintext ----Encryption Algorithm + key---> ciphertext  
+(nothing more than mathematical operations)
 ```
 K<sub>B</sub>(K<sub>A</sub>(m)) = m   
 K<sub>A</sub>(m): ciphertext encrypted using K<sub>A</sub>  
@@ -48,7 +49,7 @@ RSA
 (1) choice of public key and private key,  
 (2) encryption and dectryption algorithm
 ```
-##### **concerns about public key cryptography**
+##### **concerns about public-key cryptography**
 ```
 (1)任何人可以宣称自己是Ripley然后向Zijun发送message.    
 ----> 怎么办？ Solution: Digital Signature (绑定sender和message)  
@@ -64,28 +65,56 @@ RSA
 
 ### **Integrity:  Cryptography**
 
-#### **Cryptographic Hash Functions**
+#### **Cryptographic Hash Functions(goal : Ensure Message Not to be tampered)**
 
 ```   
 A crytographic hasn funciton should satisfy:  
 If x == y : H(x) = H(y)  
 x != y : H(x) != H(y)  
     
-```   
+```
+同时， x (arbitraty length) ---Hash Function---> H(x) (fixed length)      
 ##### **Example**
 SHA  
 ##### **Issue**
 仍无法确定发送方是否为发送方本身  
-Solution:  MAC  
+Solution:   MAC  
   
-#### **Message Authentication Code (MAC)**
+#### **Message Authentication Code (MAC) : Ensure the origin of message**
 ```
 双方拥有a shared secret : authentication key  
+MAC = H(message + authentication key)    
+发送方发送messgae + MAC
+接收方接收， then  check H(message + authentication key) ?= MAC    
 ```
 ![avatar](https://ririripley.github.io/assets/img/figure8_9_Message_authentication_code.png)
+                            图片参考文献[1]  
 
-图片参考文献[1]
+##### **Issue**
+如何distribute the shared authentication key        
+Solution:  + 加密然后发送   
 
+
+#### **Digital Signature**
+证明某人签署了材料  
+思路：  
+```
+必须附有something unique to the signer
+Q: 可否采用MAC作为signature?
+A: The answer is no. In this case, the key will be no more unique to the signer.
+```
+可采用public-key cryptography:  
+K<sub>+</sub>(K<sub>-</sub>(m)) = m    
+既保证了消息的origin, 也保证了消息not to be tampered. 可见 public-key cryptography满足了message integrity 的要求。  
+signature =  K<sub>-</sub>(m)  
+##### **Issue**
+Expensive Computation  
+Solution: 引入hash functions    
+signature =  K<sub>-</sub>(H(message)) (H(m) is of fixed-length, leading to less computation.)  
+发送方发送: message + signature  
+接收方接收， then check H(message) ?=  K<sub>+</sub>signature.  
+  
+  
 
 
 
