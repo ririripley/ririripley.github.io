@@ -180,7 +180,10 @@ Explanation[3]:
 4. client verifies the certificate(public key解密 + 核对内容， 获得server public key), 此时客户端拥有 client_nonce, server_nonce 
 以及pubkey_s, 可以计算出PremasterSecret以及master key.  
 5. client sends:  Diffie-Hellman算法以及相关参数(客户端随机生成一个整数c，计算pubkey_c = c * G)，生成客户端pubkey，发送给服务端)  
-6. 此时服务端拥有 client_nonce, server_nonce 以及pubkey_c, 可以计算出PremasterSecret以及master key.      
+6. 此时服务端拥有 client_nonce, server_nonce 以及pubkey_c, 可以计算出PremasterSecret以及master key.
+7. client sends: MAC of all the handshake messages  
+7. server sends: MAC of all the handshake messages     
+     
 ```
 服务端确定了密钥协商算法为“EC Diffie-Hellman”，发送给客户端。现在两端都知道了使用的是哪个曲线参数（椭圆曲线E、阶N、基点G）。   
 
@@ -188,22 +191,24 @@ premaster secret 计算公式: 用于生成master secret
 > PreMasterSecret：Q = pubkey_s * c = c(s * G)    
 >  PreMasterSecret：Q = pubkey_c * s = s(c * G)   
 
-master secret 计算公式 : 用于对称加密   
-> MasterSecret = PRF(PreMasterSecret, "master secret", Client.random || Server.random)   
+master secret 计算公式    
+> MasterSecret = PRF(PreMasterSecret, "master secret", Client.random || Server.random)
+> The MasterSecret will be sliced into 4 keys which known by both the server and client: encryption key AND Mac key for server and client respectively  
+
+session ticket   
+> 如果服务端想使用Ticket方式存储session状态，在Server Change Cipher Spec之前就需要发送New Session Ticket消息。
+>New Session Ticket方式与Session ID方式对比:   
+ SessionID方式，客户端在ClientHello的时候带着上一次SessionID过来，服务端从自己内存中查找SessionID对应的session状态，并读取session状态快速恢复.    
+ SessionTicket方式，则是将session状态加密后，发送给客户端存储。客户端在ClientHello时将SessionTicket带上，服务端就将其解密，读取出里面存储的session状态信息.  
+
+  
 #### **keys**
 ```
 (1)session key  
-(2)premaster key  
-(3) 
+(2)premaster key    
+(3)master key 
 ``` 
   
-
-  
- 
-
-
-
-
 ### **参考**
 [1^] James F. Kurose and Keith W. Ross. 2012. Computer Networking: A Top-Down Approach (6th Edition) (6th. ed.). Pearson.  
 [2^] https://www.cnblogs.com/baihuitestsoftware/p/13151293.html  
