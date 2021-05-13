@@ -82,7 +82,8 @@ Solution:  MAC
 ```
 双方拥有a shared secret : authentication key  
 ```
-![avatar](../assets/img/figure8_9_Message_authentication_code.png)
+![avatar](https://ririripley.github.io/assets/img/figure8_9_Message_authentication_code.png)
+![avatar](https://ririripley.github.io/ririripley_photo.JPG)
 图片参考文献[1]
 
 
