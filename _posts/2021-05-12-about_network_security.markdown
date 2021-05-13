@@ -144,7 +144,7 @@ MAC = H(message + authentication key + nonce)
 2. Man-in-the-middle Attack  
 solution :  Public Key Certification     
 ```       
-![avatar](https://ririripley.github.io/assets/img/fig_8_19_man_in_the_middle_attack.png)
+![avatar](https://ririripley.github.io/assets/img/fig_8_19_middle_attack.png)
        图片参考文献[1]        
   
  
