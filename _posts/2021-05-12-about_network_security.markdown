@@ -165,13 +165,14 @@ hash function: efficient computation
   
   
 ### **4.2 Case Study: Secure Sockets Layer (SSL)**
-![avatar](https://ririripley.github.io/assets/img/Fig_8_25SSL.png)
-       图片参考文献[1] 
+![avatar](https://ririripley.github.io/assets/img/Fig_8_25SSL.png)  
+       图片参考文献[1]  
+  
 从程序员的角度，SSL跟TCP一样提供了各种socket API, 虽然SSL实际在应用层。  
 
 
 #### **5. SSL Handshake**    
-![avatar](https://ririripley.github.io/assets/img/SSL_handshake.jpeg)
+![avatar](https://ririripley.github.io/assets/img/SSL_handshake.jpeg)  
        图片参考文献[2]  
   
   
