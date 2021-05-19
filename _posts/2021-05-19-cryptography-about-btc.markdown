@@ -1,10 +1,10 @@
 ---
 author: ripley
 comments: false
-date: 2021-05-12 16:02:08+00:00
+date: 2021-05-19 16:02:08+00:00
 layout: post
-slug: about_network_security
-title: About Network Security
+slug: Cryptography - ECC
+title: Cryptography - ECC
 wordpress_id: 304
 categories:
 - Tech
@@ -76,6 +76,9 @@ premaster secret 计算公式: 用于生成master secret
 >  PreMasterSecret：Q = pubkey_c * s = s(c * G)   
     
 #### **Bitcoin**  
-    
+##### **Keys**
+##### **Wallets**  
+##### **Addresses**  
+      
 
   
