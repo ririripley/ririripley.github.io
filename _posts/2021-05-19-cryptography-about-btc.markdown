@@ -1,7 +1,7 @@
 ---
 author: ripley
 comments: false
-date: 2021-05-19 16:02:08+00:00
+date: 2021-06-04 03:02:08+00:00
 layout: post
 slug: Cryptography - ECC
 title: Cryptography - ECC
