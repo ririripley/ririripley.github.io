@@ -14,10 +14,10 @@ description: Cryptography About Bitcoin
 ## **Elliptic Curve Cryptography (ECC)**
 #### **Explanation**
 (1)LOG Problem:  
-```  
-given a, a<sup>x</sup>,  
- we can get x = log<sub>a</sub>(a<sup>x</sup>)     
-```
+  
+given a, a<sup>x</sup>,    
+we can get x = log<sub>a</sub>(a<sup>x</sup>)     
+
 (2)Elliptive Curve  
 y<sup>2</sup> = x<sup>3</sup> + ax + b   
 ![avatar](https://ririripley.github.io/assets/img/ellipticCurve.png)  
@@ -58,13 +58,19 @@ Question:
 Back to (1)LOG problem, given kC, C, can we get k ?  
 Answer:     
 Tough task. You have to try k one by one.  
+(3)  Elliptic Curve Discrete Logarithm Problem
+  
+![avatar](https://ririripley.github.io/assets/img/ECDLP.png)    
+y<sup>2</sup> = (  x<sup>3</sup> - x + 1  ) mod 97       
+
+
 #### **Application - ECDH**
 ![avatar](https://ririripley.github.io/assets/img/open_baidu.png)  
-Elliptic Curve Diffie-Hellman Ephemeral （ECDHE)  
+Key Exchange Based On ECDH (Elliptic Curve Diffie-Hellman)
 ```
 基于ECC的秘钥交换
 ```  
-服务端确定了密钥协商算法为“EC Diffie-Hellman”，发送给客户端。现在两端都知道了使用的是哪个曲线参数（椭圆曲线E、阶N、基点G）。   
+服务端确定了密钥协商算法为“EC Diffie-Hellman”，发送给客户端。首先两端都知道了使用的是哪个曲线参数（椭圆曲线E、阶N、基点G）。   
 
 premaster secret 计算公式: 用于生成master secret
 客户端:  
@@ -73,8 +79,10 @@ premaster secret 计算公式: 用于生成master secret
     
 服务端:   
 服务端随机生成一个整数s，计算pubkey_s = s * G       
->  PreMasterSecret：Q = pubkey_c * s = s(c * G)   
-    
+>  PreMasterSecret：Q = pubkey_c * s = s(c * G)  
+
+在双方都可能被窃听的环境下，仍能安全交换秘钥。  
+
 #### **Bitcoin**  
 ##### **Keys**
 ##### **Wallets**  
