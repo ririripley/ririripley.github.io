@@ -110,7 +110,7 @@ address = hash_function(public key)
 ``` 
 contain cryptographic keys
 ```   
-##### **How To Send And Receive Bitcoin ? **    
+##### **How To Send And Receive Bitcoin ?**    
 ![avatar](https://ririripley.github.io/assets/img/btc_transaction.png)      
         
 ### **参考**     
