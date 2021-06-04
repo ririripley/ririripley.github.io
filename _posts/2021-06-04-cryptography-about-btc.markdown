@@ -111,10 +111,10 @@ address = hash_function(public key)
 contain cryptographic keys
 ```   
 ##### **How To Send And Receive Bitcoin ? **    
-      待补充图  
+![avatar](https://ririripley.github.io/assets/img/btc_transaction.png)      
         
 ### **参考**     
-[1^] https://www.bitcoin.com/get-started/how-to-receive-bitcoin/
-[2^] https://ririripley.github.io/tech/2021/05/13/about_network_security.html
-[3^] http://pangjiuzala.github.io/2016/03/03/Bitcoin%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF%E4%B9%8B%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E5%AD%A6/
-[4^] https://blog.csdn.net/qmickecs/article/details/76585303
+[1^] https://www.bitcoin.com/get-started/how-to-receive-bitcoin/  
+[2^] https://ririripley.github.io/tech/2021/05/13/about_network_security.html  
+[3^] http://pangjiuzala.github.io/2016/03/03/Bitcoin%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF%E4%B9%8B%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E5%AD%A6/  
+[4^] https://blog.csdn.net/qmickecs/article/details/76585303  
