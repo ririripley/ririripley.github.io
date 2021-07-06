@@ -17,7 +17,7 @@ Here are some excerpts from *Clean Code* useful for me.
 ```
 (1)Comments do not make up for bad code, instead, you should explain yourself the code.    
 ```
-![avatar](https://ririripley.github.io/assets/img/CLEANCODEcomments.png)  
+![avatar](https://ririripley.github.io/assets/img/CLEANCODEcommens.png)  
 ![avatar](https://ririripley.github.io/assets/img/CLEANCODEcommentsmodel.png)    
 ```
 (2)Point out warning of consequences.  
@@ -26,7 +26,7 @@ Here are some excerpts from *Clean Code* useful for me.
 ```
 (4)No Commented-Out-Code  
 ```
-![avatar](https://ririripley.github.io/assets/img/CLEANCODECommentedOutCode.png)
+![avatar](https://ririripley.github.io/assets/img/CLEANCODEnoCommentedOutCode.png)
 ```
 (5)Some Necessary Explanation
 i.e. the rationale behind the logic, usually seed in algorithm design     
