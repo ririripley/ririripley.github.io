@@ -12,7 +12,7 @@ tags:
 description: A Day in the Life of a Web Page Request
 ---
 
-<object data="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf" type="application/pdf" width="700px" height="700px">
+<object data="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf" type="application/pdf" width="1000px" height="1400px">
     <embed src="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf">Download PDF</a>.</p>
     </embed>
