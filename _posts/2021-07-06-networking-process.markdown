@@ -30,7 +30,7 @@ DNS server.
 in network.   
 The PDF as follows illustrates what is going on with a HTTP request in details:  
     
-<object data="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf" type="application/pdf" width="2000px" height="2000px">
+<object data="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf" type="application/pdf" width="1000px" height="1400px">
     <embed src="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf">Download PDF</a>.</p>
     </embed>
