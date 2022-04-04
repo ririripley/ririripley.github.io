@@ -1,0 +1,27 @@
+---
+author: ripley
+comments: false
+date: 2022-04-04 11:11:08+00:00
+layout: post
+slug: Flutter
+title: Introduction to Image
+wordpress_id: 304
+categories:
+- Tech
+tags:
+description: Analysis of Image Widget
+---
+## **Reading Notes About Image Widget**   
+The PDF as follows illustrates the mechanics of Image Widget, which is widely used in project to present photos. The Image Widget   
+implements cache pool, which means it presents the resource in the cache pool if present, otherwise, it tries to load the image info.  
+The loading of image is a completer that will emit the updating image info and 'set state' while it is complete, in this way, the widget   
+shows the final image.           
+    
+<object data="https://ririripley.github.io/assets/img/Image.pdf" type="application/pdf" width="1200px" height="1400px">
+    <embed src="https://ririripley.github.io/assets/img/Image.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/Image.pdf">Download PDF</a>.</p>
+    </embed>
+</object>  
+### **参考**     
+https://www.epubit.com/bookDetails?id=UB7812bd93e7e58
+
