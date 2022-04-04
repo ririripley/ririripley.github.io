@@ -15,7 +15,7 @@ description: Analysis of Stream Controller
 The PDF as follows illustrates the mechanics of Stream Controller which is widely used in project to notify a series of events:  
 Actually, the core of stream controller is **Callback Register**.      
     
-<object data="https://ririripley.github.io/assets/img/streamController.pdf" type="application/pdf" width="1200px" height="1400px">
+<object data="https://ririripley.github.io/assets/img/streamController.pdf" type="application/pdf" width="1000px" height="1400px">
     <embed src="https://ririripley.github.io/assets/img/streamController.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/streamController.pdf">Download PDF</a>.</p>
     </embed>

@@ -18,7 +18,7 @@ The gesture arena is owned by a global mangaer called Gesture Manager. Gesture M
 added by Gesture Recognizers.  Every time a pointer event happens, the gesture manager will first dispatch the added pointer route and event and then choose to close or sweep the arena based   
 on its state.  A more specific example of double tap is illustrated in the final part of this PDF in details.      
     
-<object data="https://ririripley.github.io/assets/img/Gesture.pdf" type="application/pdf" width="1200px" height="1400px">
+<object data="https://ririripley.github.io/assets/img/Gesture.pdf" type="application/pdf" width="1000px" height="1400px">
     <embed src="https://ririripley.github.io/assets/img/Gesture.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/Gesture.pdf">Download PDF</a>.</p>
     </embed>

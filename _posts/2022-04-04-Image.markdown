@@ -1,7 +1,7 @@
 ---
 author: ripley
 comments: false
-date: 2022-04-05 14:11:08+00:00
+date: 2022-03-30 12:11:08+00:00
 layout: post
 slug: ImageWidget
 title: Introduction to Image
@@ -17,7 +17,7 @@ implements cache pool, which means it presents the resource in the cache pool if
 The loading of image is a completer that will emit the updating image info and 'set state' while it is complete, in this way, the widget   
 shows the final image.           
     
-<object data="https://ririripley.github.io/assets/img/Image.pdf" type="application/pdf" width="1200px" height="1400px">
+<object data="https://ririripley.github.io/assets/img/Image.pdf" type="application/pdf" width="1000px" height="1400px">
     <embed src="https://ririripley.github.io/assets/img/Image.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/Image.pdf">Download PDF</a>.</p>
     </embed>

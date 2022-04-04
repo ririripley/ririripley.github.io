@@ -1,7 +1,7 @@
 ---
 author: ripley
 comments: false
-date: 2022-04-05 10:11:08+00:00
+date: 2022-04-01 12:11:08+00:00
 layout: post
 slug: PlatformChannel
 title: Platform Channel
@@ -19,7 +19,7 @@ Platform View is provided by flutter for developers to apply native UI component
 of platform channel to share texture information: texture ID. The core of platform view is the rendering native texture in flutter.  
 
     
-<object data="https://ririripley.github.io/assets/img/platformChannel.pdf" type="application/pdf" width="1200px" height="1400px">
+<object data="https://ririripley.github.io/assets/img/platformChannel.pdf" type="application/pdf" width="1000px" height="1400px">
     <embed src="https://ririripley.github.io/assets/img/platformChannel.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/platformChannel.pdf">Download PDF</a>.</p>
     </embed>
