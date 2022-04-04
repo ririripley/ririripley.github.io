@@ -1,9 +1,9 @@
 ---
 author: ripley
 comments: false
-date: 2022-04-04 11:11:08+00:00
+date: 2022-04-05 14:11:08+00:00
 layout: post
-slug: Flutter
+slug: ImageWidget
 title: Introduction to Image
 wordpress_id: 304
 categories:

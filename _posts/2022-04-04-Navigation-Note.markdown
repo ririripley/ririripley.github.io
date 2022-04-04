@@ -1,9 +1,9 @@
 ---
 author: ripley
 comments: false
-date: 2022-04-04 11:11:08+00:00
+date: 2022-04-05 09:11:08+00:00
 layout: post
-slug: Flutter
+slug: Navigator
 title: Flutter App Router - Navigator
 wordpress_id: 304
 categories:

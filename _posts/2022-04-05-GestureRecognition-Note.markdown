@@ -3,7 +3,7 @@ author: ripley
 comments: false
 date: 2022-04-05 11:11:08+00:00
 layout: post
-slug: Flutter
+slug: GestureRecognition
 title: Analysis of Gesture Recognition
 wordpress_id: 304
 categories:
