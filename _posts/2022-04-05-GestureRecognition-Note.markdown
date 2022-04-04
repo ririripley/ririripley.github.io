@@ -1,7 +1,7 @@
 ---
 author: ripley
 comments: false
-date: 2022-04-05 11:11:08+00:00
+date: 2022-04-03 12:11:08+00:00
 layout: post
 slug: GestureRecognition
 title: Analysis of Gesture Recognition
