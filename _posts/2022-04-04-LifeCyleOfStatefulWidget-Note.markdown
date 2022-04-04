@@ -12,7 +12,7 @@ tags:
 description: Lifecyle Of StatefulWidget
 ---
 ## **Reading Notes About StatefulWidget**   
-The PDF as follows illustrates the mechanics of StatefulWidget as well some signifant methods of StatefulElement during its lifecyle in details:  
+The PDF as follows illustrates the mechanics of Inherited Widget as well some signifant methods of Stateful Element during its lifecyle in details:  
 
     
 <object data="https://ririripley.github.io/assets/img/StatefulWidget-Lifecycle.pdf" type="application/pdf" width="1200px" height="1400px">
