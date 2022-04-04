@@ -4,7 +4,7 @@ comments: false
 date: 2022-04-04 11:11:08+00:00
 layout: post
 slug: Flutter
-title: Flutter App Router: Navigator
+title: Flutter App Router - Navigator
 wordpress_id: 304
 categories:
 - Tech

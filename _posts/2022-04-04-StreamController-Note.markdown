@@ -4,14 +4,14 @@ comments: false
 date: 2022-04-04 11:11:08+00:00
 layout: post
 slug: Flutter
-title: Lifecyle Of StatefulWidget
+title: Analysis of Stream Controller
 wordpress_id: 304
 categories:
 - Tech
 tags:
-description: Lifecyle Of StatefulWidget
+description: Analysis of Stream Controller
 ---
-## **Reading Notes About StatefulWidget**   
+## **Reading Notes About Stream Controller**   
 The PDF as follows illustrates the mechanics of Stream Controller which is widely used in project to notify a series of events:  
 Actually, the core of stream controller is **Callback Register**.      
     
