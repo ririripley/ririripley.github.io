@@ -1,38 +1,113 @@
 ---
 author: ripley
 comments: false
-date: 2021-07-06 11:11:08+00:00
+date: 2022-10-23 14:03:08+00:00
 layout: post
-slug: Networking
-title: A Day in the Life of a Web Page Request copy
+slug: iOSDevelopment
+title: iOS Development - UIKit
 wordpress_id: 304
 categories:
 - Tech
 tags:
-description: A Day in the Life of a Web Page Request copy
+description: iOS Development - UIKit
 ---
-## **The Journey of A HTTP Request**  
-#### **Example**  
-Let's say that one student, Bob, wants to downloads a web page(www.google.com). Then there is a lot going on:  
+## **UIKit**
+What is the relationship between UIView and CALayer:
 ```
-(1) Connecting to local Ethernet: DHCP, UDP, IP, Ethernet
-(2) Send HTTP Request: DNS, ARP
-(3) Web Client-Server Interaction: TCP and HTTP  
+1) UIView can be regarded as a layer-host view in which CALayer is repsonsible for drawing, displaying & animation, 
+while the view is responsible for interaction(e.g. handling touch events).  
+2) CALayer is a subclass of NSObject; UIView is a subclass of UIResponder.    
+3) UIView has a property LAYER to obtain the underlying CALayer of it. The undelying CALayer's delegate = UIView.  
+UIView conforms to CALayerDelegate protocol to respond to layer-related events, by implementing the protocol, UIView is able to  
+respond to layer-related events such as providing the layer’s content(METHOD displayLayer:) and handling the layout of sublayers.  
 ```
-To summarize, in order to get the webpage content from Internet,  
-(1)  Bob's laptop first needs to connect to local Ethernet, during which DHCP is required for initializing the laptop's components     
-including default gateway router, default DNS server,  network mask, the allocated IP address to the laptop.      
-(2)  After that, Bob types the URL and UDP is used to retrieve the IP address of the domain(www.google.com), but in order to send the    
-UDP packet,  an ARP request is sent so as to obtain the MAC address of the default gateway router. The UDP packet wrapped in IP datagram    
-will be first send to the gateway router, then to the DNS server. In this way, Bob can obtain the IP address as a response from the    
-DNS server.    
-(3) With the IP address, a HTTP request asking for the content of webpage will reach the IP address navigated by the routers distributed    
-in network.   
-The PDF as follows illustrates what is going on with a HTTP request in details:  
-    
-<object data="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf" type="application/pdf" width="1000px" height="1400px">
-    <embed src="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://ririripley.github.io/assets/img/LifeOfWebPageRequest.pdf">Download PDF</a>.</p>
-    </embed>
-</object>  
+What is the difference between bounds and frame:
+```
+(1) Bounds is the view's own coodinate system.    
+(2) Frame is the view's position and size in the perspective of its superview's coordinate system. The width and height of frame   
+is not necessarily equal to which of the bounds. (e.g. a rotated UIView)  
+```
+What is LOADVIEW method for:
+```
+(1) A UIViewController can set its view in two methods: 1. Implementing loadView method programmatically. 2. Create a nib file.  
+(2) If method one is not implemented, UIViewController will automatically call the designated method initWithNibName:WithBundle: in  
+which the nib name is the controller's name and the bundle is mainBundle by default parameters are nil. If no such nib file exists, a  
+generic view will be assigned as the view controller's view.       
+(3) If method one is implemented, UIViewController will gain its view through method one.   
+``` 
+What is the super class of UIButton and UILabel respectively:
+```
+(1) UIButton -> UIControl -> UIView -> UIResponder    
+(2) UILabel -> UIView -> UIResponder         
+(3) UIControl provides methods such as addTarget:action:forControlEvents: as well as removeTarget:action:forControlEvents:.  
+```
+How to implement didReceiveMemoryWarning:
+```
+(1) didReceiveMemoryWarning is the message received by UIViewController when the app receives a memory warning.    
+(2) In iOS6, when the system sent memory warning messages, it will also automatically recycle those memory occupied by bitmap which  
+is a memory-costly object owned by CALayer. In this way, without the recyclization of UIView and CALayer, most memory could be released.  
+And the bitmap can be rebuilt easily by drawRect method when needed. 
+(3) In didReceiveMemoryWarning, we need to call the super method and then dispose of any resources which aren't absolutely critical. 
+Most of the view controllers will be hanging onto data caches, intermediary data, or other bits and pieces, often to save recalculation.    
+```
+Lifecycle of UIView:
+```
+(1) When a view is added as subview, viewWillAppear will be called.  
+(2) Before the view is displayed on the screen, viewWillLayoutSubViews and viewDidLayoutSubViews will be called followed by drawRect method, and finally  
+viewDidAppear is called.   (layoutSubviews -> drawRect)
+(3) When the view is removed from super view, viewWillDisAppear will be called followed by viewDidDisappear.       
+```
+Lifecycle of UIViewController:
+```
+(1)-[ViewController loadView]  
+(2)-[ViewController viewDidLoad]  
+(3)-[ViewController viewWillAppear:]  
+(4)-[ViewController viewWillLayoutSubviews]  
+(5)-[ViewController viewDidLayoutSubviews]  
+(6)-[ViewController viewDidAppear:]  
+(7)-[ViewController viewWillDisappear:]  
+(8)-[ViewController viewDidDisappear:]  
+(9)-[ViewController dealloc]  
+(10)-[ViewController didReceiveMemoryWarning]         
+```
+How to get the current displaying UIViewController on the screen?
+```
+// header file: UIWindow+DisplayVc.h  
+@interface UIWindow   
+- (UIViewController *) visibleViewController;    
+@end
+       
+// implementation file: UIWindow+DisplayVc.m  
+#import "UIWindow+DisplayVc.h"  
+
+@implementation UIWindow (DisplayVcs)
+  
+- (UIViewController *)visibleViewController {  
+    UIViewController *rootViewController = self.rootViewController;  
+    return [UIWindow getVisibleViewControllerFrom:rootViewController];  
+}
+  
++ (UIViewController *) getVisibleViewControllerFrom:(UIViewController *) vc {  
+    if ([vc isKindOfClass:[UINavigationController class]]) {  
+        return [UIWindow getVisibleViewControllerFrom:[((UINavigationController *) vc) visibleViewController]];  
+    } else if ([vc isKindOfClass:[UITabBarController class]]) {  
+        return [UIWindow getVisibleViewControllerFrom:[((UITabBarController *) vc) selectedViewController]];  
+    } else {  
+        if (vc.presentedViewController) {  
+            return [UIWindow getVisibleViewControllerFrom:vc.presentedViewController];  
+        } else {  
+            return vc;  
+        }  
+    }  
+}  
+@end  
+```
+What is the relationship beween method layoutIfNeed and setNeedsDisplay?
+```
+When layoutIfNeeded is called, the current event roop will check the mark symbol needsUpadteConstraints, needsUpadteLayout,  
+needsDisplay immediately and execute their corresponding methods: upadteConstraints, layoutSubviews, drawRect. All these will be  
+done before the layoutIfNeeded method returns. Using setNeedsDisplay, setNeedsLayout, setNeedsUpdateConstraints will mark corresponding  
+symbols but actions will not execute until next update cycle.            
+```
+
 
