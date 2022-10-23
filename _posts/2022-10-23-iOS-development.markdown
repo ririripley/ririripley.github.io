@@ -3,13 +3,13 @@ author: ripley
 comments: false
 date: 2022-10-23 14:03:08+00:00
 layout: post
-slug: iOSDevelopmentforUIKit
+slug: iOSDevelopmentForUIKit
 title: iOS Development for UIKit
 wordpress_id: 304
 categories:
 - Tech
-  tags:
-  description: iOS Development for UIKit
+tags:
+description: iOS Development for UIKit
 ---
 ## **UIKit**
 What is the relationship between UIView and CALayer:
