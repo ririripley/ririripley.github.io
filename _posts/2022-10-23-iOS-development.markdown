@@ -1,9 +1,9 @@
 ---
 author: ripley
 comments: false
-date: 2022-10-23 16:03:08+00:00
+date: 2022-10-23 14:03:08+00:00
 layout: post
-slug: iOSDevelopmentUIKit
+slug: iOSDevelopmentforUIKit
 title: iOS Development for UIKit
 wordpress_id: 304
 categories:
