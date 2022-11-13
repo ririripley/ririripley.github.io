@@ -8,8 +8,8 @@ title: iOS memory management part
 wordpress_id: 304
 categories:
 - Tech
-  tags:
-  description: iOS memory management
+tags:
+description: iOS memory management
 ---
 ## **iOS - Memory Management**
 What are the rules to follow under an ARC-enabled environment?
