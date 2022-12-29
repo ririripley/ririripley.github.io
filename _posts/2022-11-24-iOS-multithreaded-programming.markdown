@@ -14,24 +14,24 @@ description: iOS multithreaded programming
 ## **iOS - multithreaded programming**
 1) NSLock      
 Encapsulation of pthread_mutex(mutually excluded) in C++.      
-- (BOOL)tryLock;   -> pthread_mutex_trylock // try to get the lock, return true if succeed, otherwise return false.(will not wait)     
-- (BOOL)lockBeforeDate:(NSDate *)limit;  //   try to wait and get the lock before date, return false if failed.(wait for a while)  
-- (void)lock;  -> pthread_mutex_lock // wait until get the lock.      
-- (void)unlock;  -> pthread_mutex_unlock // release the lock     
+- (BOOL)tryLock;   -> pthread_mutex_trylock // try to get the lock, return true if succeed, otherwise return false.(will not wait)       
+- (BOOL)lockBeforeDate:(NSDate *)limit;  //   try to wait and get the lock before date, return false if failed.(wait for a while)    
+- (void)lock;  -> pthread_mutex_lock // wait until get the lock.       
+- (void)unlock;  -> pthread_mutex_unlock // release the lock      
 ```
 NSLock *lock = [[NSLock alloc] init];  
 for (int i = 0; i < 200000; i++) {  
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{  
-        [lock lock];  
-        self.mArray = [NSMutableArray array];  
-        [lock unlock];  
-    });  
-}     
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{    
+        [lock lock];    
+        self.mArray = [NSMutableArray array];    
+        [lock unlock];   
+    });   
+}      
 ```   
 2) NSRecursiveLock  
-Encapsulation of pthread_mutex(mutually excluded) in C++（PTHREAD_MUTEX_RECURSIVE）.    
-In the same thread, the lock can be obtained mutiple times, on when the lock is release can other thread     
-obtain the lock.  
+Encapsulation of pthread_mutex(mutually excluded) in C++（PTHREAD_MUTEX_RECURSIVE）.      
+In the same thread, the lock can be obtained mutiple times, on when the lock is release can other thread       
+obtain the lock.    
 ```      
 NSRecursiveLock *lock = [[NSRecursiveLock alloc] init];  
 
@@ -59,10 +59,10 @@ dispatch_async(dispatch_get_global_queue(0, 0), ^{
 3)@synchronized  
 ```      
 - (void)run {  
-    @synchronized (self) {  
-        NSLog(@"s1");  
-        @synchronized (self) {  
-            NSLog(@"s2");  
+    @synchronized (self) {    
+        NSLog(@"s1");    
+        @synchronized (self) {    
+            NSLog(@"s2");    
         }  
     }  
 }  
@@ -79,7 +79,7 @@ objc_sync_enter(obj)
 //action   
 objc_sync_exit(obj)
 Explanation:    
-objc_sync_enter will create a struct called SyncData as follows:  
+objc_sync_enter will create a struct called SyncData as follows:    
 //objc-sync.mm  
 typedef struct SyncData {    
     struct SyncData* nextData;    
@@ -88,40 +88,40 @@ typedef struct SyncData {
   
     int32_t threadCount;  // number of THREADS using this block    
      
-    recursive_mutex_t mutex;    
+    recursive_mutex_t mutex;      
 } SyncData;  
 
-@synchronized(obj) will create SyncData which will be stored in a hash table using obj as the key. In the   
+@synchronized(obj) will create SyncData which will be stored in a hash table using obj as the key. In the     
 SyncData struct, a phread_mutex of PTHREAD_MUTEX_RECURSIVE type is associated with the object.     
 objc_sync_enter -> phread_mutex lock   
 objc_sync_exit -> phread_mutex unlock   
-Based on the mechanism of @synchronized, it can be indicated that the efficiency of @synchronized is low due to the  
+Based on the mechanism of @synchronized, it can be indicated that the efficiency of @synchronized is low due to the    
 search in hash table.  
 ```      
-4)condition variables
-pthread_cond_wait   
-pthread_cond_signal
+4)condition variables  
+pthread_cond_wait     
+pthread_cond_signal  
 ```      
 pthread_cond_wait:  
-put the calling thread in the waiting thread list, and release the lock. When this methods return, obtain the lock again.  
+put the calling thread in the waiting thread list, and release the lock. When this methods return, obtain the lock again.    
 pthread_cond_signal:  activate one of the waiting threads.    
 pthread_cond_broadcast:  activate all of the waiting threads.    
 ```
-4.1)NSCondition is actually an encapsulation of  pthread_cond.  
+4.1)NSCondition is actually an encapsulation of  pthread_cond.    
 ```
-init: 
-pthread_mutex_init(mutex, nil)  
+init:   
+pthread_mutex_init(mutex, nil)    
 pthread_cond_init(cond, nil)  
-- (void)lock; // pthread_mutex_lock(mutex)    
-- (void)unlock; // pthread_mutex_unlock(mutex)    
-- (void)wait;   //   pthread_cond_wait(cond, mutex)      
-- (BOOL)waitUntilDate:(NSDate *)limit; // pthread_cond_timedwait(cond, mutex, &timeout)      
-- (void)signal; // pthread_cond_signal(cond)  
-- (void)broadcast; // pthread_cond_broadcast(cond)      
+- (void)lock; // pthread_mutex_lock(mutex)      
+- (void)unlock; // pthread_mutex_unlock(mutex)      
+- (void)wait;   //   pthread_cond_wait(cond, mutex)        
+- (BOOL)waitUntilDate:(NSDate *)limit; // pthread_cond_timedwait(cond, mutex, &timeout)        
+- (void)signal; // pthread_cond_signal(cond)    
+- (void)broadcast; // pthread_cond_broadcast(cond)        
 ```
-4.2)NSConditionLock is actually an encapsulation of NSCondition.      
+4.2)NSConditionLock is actually an encapsulation of NSCondition.        
 ```
-NSConditionLock makes use of NSCondition wait and broadcast function and while loop combined with a NSInteger   
+NSConditionLock makes use of NSCondition wait and broadcast function and while loop combined with a NSInteger     
 variables to make sure the execution order of tasks in multiple threads.  
 ``` 
 init  
@@ -139,7 +139,7 @@ _cond.unlock()
 ``` 
 -void lock;  
 ``` 
-open func lock(whenCondition condition: Int, before limit: Date) -> Bool {  
+open func lock(whenCondition condition: Int, before limit: Date) -> Bool {    
     _cond.lock()  
     while _thread != nil || _value != condition {  
         if !_cond.wait(until: limit) {  
@@ -151,27 +151,27 @@ open func lock(whenCondition condition: Int, before limit: Date) -> Bool {
     _cond.unlock()  
     return true  
 }    
-As you can see, lock and unlock methods of _cond only works inside the function to avoid race condition, the    
+As you can see, lock and unlock methods of _cond only works inside the function to avoid race condition, the      
 essense of the method lies in _cond.wait and while loop which makes the thread stuck.    
 ``` 
-5)os_unfair_lock
+5)os_unfair_lock  
 ``` 
-The thread will be put into sleep while waiting to obtain the lock.  
+The thread will be put into sleep while waiting to obtain the lock.    
 ```   
 6)NSDistributedLock  
 ``` 
 To compromise the conflict between multiple processes and exec.  
 ```     
-7)NSCache & NSMutableDictionary & NSMutableArray
+7)NSCache & NSMutableDictionary & NSMutableArray  
 ``` 
-NSMutableDictionary and NSMutableArray are not thread-safe. They are not designed to be simultaneously read or written    
+NSMutableDictionary and NSMutableArray are not thread-safe. They are not designed to be simultaneously read or written      
 by multiple threads. So you have to use serial threads if multiple threads needs to visit the data.   
-NSCache is thread-safe.  It makes use of some policies so as to delete some data if the application is short of memory.    
+NSCache is thread-safe.  It makes use of some policies so as to delete some data if the application is short of memory.      
 ``` 
-8)What is the difference between concurrency and parallelism?
+8)What is the difference between concurrency and parallelism?  
 ```
 5.2)dispatch_group_wait:  
-Paramllelism means that multiple tasks are executing at the same time. That’s two processes running on a dual core, i.e.  
+Paramllelism means that multiple tasks are executing at the same time. That’s two processes running on a dual core, i.e.    
 As for concurrency, mutiple tasks seem to be executing at the same time, but actually they are not. The execution of   
 theses task take turns through context switch.  
 ```
@@ -186,10 +186,10 @@ memory.
 ```
 1)subclass NSOperation    
 NSOperation: an abstract class that represents the code and data associated with a single task.  
-- (void)start;  // The default implementation of this method updates the execution state of the operation    
-  and calls the receiver’s main method.  
-- (void)main;  //   The default implementation of this method does nothing.   
-  You should override this method to perform the desired task.
+- (void)start;  // The default implementation of this method updates the execution state of the operation      
+  and calls the receiver’s main method.    
+- (void)main;  //   The default implementation of this method does nothing.     
+  You should override this method to perform the desired task.  
       
 Example of self-defined NSOoperation:      
 @interface CustomerOperation : NSOperation      
@@ -212,19 +212,19 @@ CustomerOperation *operation = [[CustomerOperation alloc]init];
 [operation start];  
        
 Printing Result:  
-2020-03-19 20:28:54.473676+0800 ThreadDemo[47267:12811915] 0--<NSThread: 0x600001289040>{number = 1, name = main}  
-2020-03-19 20:28:56.474363+0800 ThreadDemo[47267:12811915] 1--<NSThread: 0x600001289040>{number = 1, name = main}  
-2020-03-19 20:28:58.474708+0800 ThreadDemo[47267:12811915] 2--<NSThread: 0x600001289040>{number = 1, name = main}  
+2020-03-19 20:28:54.473676+0800 ThreadDemo[47267:12811915] 0--<NSThread: 0x600001289040>{number = 1, name = main}    
+2020-03-19 20:28:56.474363+0800 ThreadDemo[47267:12811915] 1--<NSThread: 0x600001289040>{number = 1, name = main}    
+2020-03-19 20:28:58.474708+0800 ThreadDemo[47267:12811915] 2--<NSThread: 0x600001289040>{number = 1, name = main}    
 2020-03-19 20:29:00.476058+0800 ThreadDemo[47267:12811915] 3--<NSThread: 0x600001289040>{number = 1, name = main}    
-As can be seen, the task is always executed in the same thread which calls the NSOperation method.  
+As can be seen, the task is always executed in the same thread which calls the NSOperation method.    
 ```
 ```
 2)NSInvocationOperation  
-- initWithTarget:selector:object:  // Returns an NSInvocationOperation object initialized with the specified target and selector.  
+- initWithTarget:selector:object:  // Returns an NSInvocationOperation object initialized with the specified target and selector.    
 
 Usage:     
 -(void)invocationOperation{      
-    NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(operation) object:nil];        
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(operation) object:nil];          
     [operation start];   
 }  
 -(void)operation{    
@@ -244,7 +244,7 @@ As can be seen, the task is always executed in the same thread which calls the N
 ```
 3)NSBlockOperation  
   
-+ (instancetype)blockOperationWithBlock:(void (^)(void))block; //  Creates and returns an NSBlockOperation object and adds the specified block to it.    
++ (instancetype)blockOperationWithBlock:(void (^)(void))block; //  Creates and returns an NSBlockOperation object and adds the specified block to it.      
 - addExecutionBlock:  // Adds the specified block to the receiver’s list of blocks to perform.        
 Usage:    
 -(void)blockOperationDemo{    
@@ -263,7 +263,7 @@ Printing Result :
 2020-03-19 17:19:44.677073+0800 ThreadDemo[45160:12689966] 3--<NSThread: 0x600001081100>{number = 1, name = main}  
 2020-03-19 17:19:46.677379+0800 ThreadDemo[45160:12689966] 4--<NSThread: 0x600001081100>{number = 1, name = main}  
     
-As can be seen, when using the blockOperationWithBlock method alone, the task is always executed in the same thread which calls the NSOperation method.    
+As can be seen, when using the blockOperationWithBlock method alone, the task is always executed in the same thread which calls the NSOperation method.      
 However, when using addExecutionBlock to add blocks for the operation, all the blocks will be added to a thread queue with   
 default priority and these blocks may be executed in different threads(this is determined by the system).  
 When all the blocks are finished, the operation will  mark its state as finished.  
@@ -334,7 +334,7 @@ one, it means that the queue is a serial queue.
 ```
 - addOperation: // Adds the specified operation to the receiver.  
 - addOperations:waitUntilFinished:  // Adds the specified operations to the queue. waitUntilFinished: If YES, the current thread is   
-blocked until all of the specified operations finish executing. If NO, the operations are added to the queue and control returns immediately to the caller.      
+blocked until all of the specified operations finish executing. If NO, the operations are added to the queue and control returns immediately to the caller.        
   
 - addOperationWithBlock:  Wraps the specified block in an operation and adds it to the receiver.    
 // If the operations are all added to mainQueue,the tasks will be excecuted one by one instead of concurrently.        
@@ -360,9 +360,9 @@ Communication among threads using NSOperation example:
     [queue addOperation:operation];    
 }  
 ```   
-Dependency of NSOperations:
+Dependency of NSOperations:  
 ```   
-- addDependency: -> Makes the receiver dependent on the completion of the specified operation.    
+- addDependency: -> Makes the receiver dependent on the completion of the specified operation.      
 - removeDependency: ->  Removes the receiver’s dependence on the specified operation.  
 ```   
 ```   
@@ -396,18 +396,18 @@ Dependency of NSOperations:
   [queue addOperations:opList waitUntilFinished:YES];  
   // operation1 depends on operation2 and operation3, therefore operation2 and operation3 will be executed before operation1.  
 ```   
-Priority of NSOperation(added in the same NSOperationQueue)    
-The execution order of different NSOperations should first obey the dependency relationship.  For NSOperations which are in ready state,    
+Priority of NSOperation(added in the same NSOperationQueue)      
+The execution order of different NSOperations should first obey the dependency relationship.  For NSOperations which are in ready state,      
 the queue priority determines their execution order.    
 ```
-@property NSOperationQueuePriority queuePriority;  -> The execution priority of the operation in an operation queue. NSOperationQueuePriorityNormal by default.  
+@property NSOperationQueuePriority queuePriority;  -> The execution priority of the operation in an operation queue. NSOperationQueuePriorityNormal by default.    
 ```
-Example :
+Example :  
 ```
-- (void)addDependency {  
-  NSOperationQueue *queue = [[NSOperationQueue alloc] init];  
-
-  NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{  
+- (void)addDependency {    
+  NSOperationQueue *queue = [[NSOperationQueue alloc] init];    
+  
+  NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{    
   for (int i = 0; i < 2; i++) {  
   [NSThread sleepForTimeInterval:2];  
   NSLog(@"1---%@", [NSThread currentThread]);  
@@ -433,39 +433,39 @@ Example :
   NSLog(@"dependencies-%@",depedndencies);  
   [queue addOperations:opList waitUntilFinished:YES];  
   NSLog(@"end");  
-  // The queuePriority should obey the dependency relationship. Therefore, even though operation1 has the highest priority  
+  // The queuePriority should obey the dependency relationship. Therefore, even though operation1 has the highest priority    
   in the queue, it is still executed last.  
-  }
+  }  
 ```
-Status of NSOperation  
+Status of NSOperation    
 ```
-isReady → isExecuting → isFinished  
-isReady: what it depends on are all finished  
-isFinished: meaning it is finshed or canceled  
+isReady → isExecuting → isFinished    
+isReady: what it depends on are all finished    
+isFinished: meaning it is finshed or canceled    
 ```
-11)What is the difference between OSSpinLock and mutual exclusive lock?
+11)What is the difference between OSSpinLock and mutual exclusive lock?  
 ```
-OSSpinLock : busy-waiting type, keep asking until successfully get the lock therefore occupying the CPU.  
+OSSpinLock : busy-waiting type, keep asking until successfully get the lock therefore occupying the CPU.    
 Mutual exclusive lock like mutex: sleep-waiting type, blocked if failed trying to get the lock,   
-then context switch happens and the current thread trying to get the lock will be put in the waiting threads queue.  
+then context switch happens and the current thread trying to get the lock will be put in the waiting threads queue.    
 ```  
-12) What are the requirements for deadlock?
+12) What are the requirements for deadlock?  
 ```  
-Occupy the resource and won’t release it until finishing the task.        
-The resource cannot be shared.  
-More than one threads are waiting for the same resources.  
+Occupy the resource and won’t release it until finishing the task.          
+The resource cannot be shared.    
+More than one threads are waiting for the same resources.    
 ```    
-13) What should be paid attention to while multithread programming?  
+13) What should be paid attention to while multithread programming?    
 ```    
-Avoid deadlock + Avoid creating too many threads which may lead to large memory occupation and low efficiency due to context switch.  
+Avoid deadlock + Avoid creating too many threads which may lead to large memory occupation and low efficiency due to context switch.    
 ```      
-14) Examples of deadlock.
+14) Examples of deadlock.  
 ```      
-dispatch_sync + serial thread    
-Recursively call dispatch_once    
+dispatch_sync + serial thread      
+Recursively call dispatch_once      
 ```
 15) Thread Status  
-![avatar](https://ririripley.github.io/assets/img/thread_status.png)  
+![avatar](https://ririripley.github.io/assets/img/thread_status.png)    
 ### **Reference**  
 https://juejin.cn/post/7031824170883383333    
 https://juejin.cn/post/7017703842594684935  
