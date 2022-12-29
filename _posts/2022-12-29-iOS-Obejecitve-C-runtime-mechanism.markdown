@@ -1199,8 +1199,8 @@ v    :   return value is void
 :    :   SEL  
 @    ：  parameter (type: id)    
 ```
-12) Multiple-inheritance  
-Objective-C doesn't support multiple inheritance. Use composition or protocols.  
+13) Multiple-inheritance    
+Objective-C doesn't support multiple inheritance. Use composition or protocols.    
       
 ### **Reference**  
 https://cloud.tencent.com/developer/article/1156752    
