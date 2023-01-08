@@ -1018,7 +1018,7 @@ In 64-bit system, a pointer occupies 8 bytes while the value it stores does not 
 space is divided by half. One half stores the value while the other half stores the address.  The optimization can also apply to  
 isa pointer.  Half of the isa bytes can store the reference number while the other half stores the address of the class object.  
 Such an isa pointer is called **NON_POINTER_ISA**.  
-9) Convert Dictionary to Object Model  
+9)Convert Dictionary to Object Model  
 ```
 @{  
 @"name" : @"Xiaoming",    
@@ -1065,7 +1065,7 @@ Ivar  _Nonnull * class_copyIvarList(Class cls, unsigned int *outCount);
     free(ivars);   
 }   
 ```
-10) Objects Archiving And Unarchiving  
+10)Objects Archiving And Unarchiving  
 Classes whose instances need to be archived and unarchived must conform to the NSCoding protocol and implement its two required methods,     
 encodeWithCoder: and initWithCoder:.  
 @protocol NSCoding    
@@ -1176,7 +1176,7 @@ optimize the code. Encode and decode can be written as follows:
   return self;  
 }  
 ```
-10) What is the difference between 'calling a method' and 'sending a message' ?   
+11)What is the difference between 'calling a method' and 'sending a message' ?   
 Calling a method:  
 ```
 Function calls are really just jumping to a certain spot in memory and executing code. There's no dynamic behavior involved.  
@@ -1186,10 +1186,10 @@ Sending a message:
 Objects can choose to not respond to messages, or forward messages on to different objects, or whatever. More details are entailed  
 in  objc_msgSend() function.  
 ```
-11) Runtime Methods Cache  
+12)Runtime Methods Cache  
 To speed the messaging process, the runtime system caches the selectors and addresses of methods as they are used.    
 The mechanism is entailed in the **cache_t** struct introduced in section **(1.6) id**.    
-12) Type Encoding  
+13) Type Encoding  
 The Objective-C compiler generates type encodings for all the types.  
 ```  
 For example,   
@@ -1199,9 +1199,25 @@ v    :   return value is void
 :    :   SEL  
 @    ：  parameter (type: id)    
 ```
-13) Multiple-inheritance    
+14)Multiple-inheritance    
 Objective-C doesn't support multiple inheritance. Use composition or protocols.    
-      
+
+15)Mechanism Of Perform Selector
+```
+- (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 {    
+     IMP msg;  
+     if (aSelector == 0) {  
+         [NSException raise: NSInvalidArgumentException format: @"%@ null selector given", NSStringFromSelector(_cmd)];    
+     }  
+     // find the coreresponding IMP of selector 
+     msg = objc_msg_lookup(self, aSelector);  
+     if (!msg) {  
+         [NSException raise: NSGenericException format: @"invalid selector '%s' passed to %s", sel_getName(aSelector), sel_getName(_cmd)];  
+         return nil;  
+     }  
+     return (*msg)(self, aSelector, object1, object2);  
+  }  
+```
 ### **Reference**  
 https://cloud.tencent.com/developer/article/1156752    
 https://www.jianshu.com/p/fa66c8be42a2    
@@ -1216,7 +1232,8 @@ https://juejin.cn/post/7029343711112724517
 https://blog.csdn.net/u010105969/article/details/62233752    
 https://davedelong.tumblr.com/post/58428190187/an-observation-on-objective-c    
 https://www.jianshu.com/p/6fb4641e6ec5    
-https://stackoverflow.com/questions/4192203/objective-c-multiple-inheritance  
+https://stackoverflow.com/questions/4192203/objective-c-multiple-inheritance
+https://blog.chenyalun.com/2018/09/30/PerformSelector%E5%8E%9F%E7%90%86/
 
 
 
