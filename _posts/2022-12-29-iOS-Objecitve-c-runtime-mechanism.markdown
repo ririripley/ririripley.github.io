@@ -1218,6 +1218,40 @@ Objective-C doesn't support multiple inheritance. Use composition or protocols.
      return (*msg)(self, aSelector, object1, object2);  
   }  
 ```
+16)Runtime Get Class Related Method              
+Class object_getClass(id obj);          
+```     
+The class object of which object is an instance, or Nil if object is nil.          
+Class object_getClass(id obj)     
+{     
+   if (obj)      
+      return obj->getIsa();          
+   else      
+      return Nil;          
+}                
+```     
+id objc_getClass(const char *name);     
+```     
+return the Class object for the named class, or nil if the class is not registered with the Objective-C runtime.       
+```     
++ (Class)class;     
+```     
+//Returns the class object.     
++ (Class)class {     
+  return self;     
+}     
+```     
+- (Class)class;     
+```     
+Returns the class object for the receiver’s class.     
+- (Class)class {     
+    return object_getClass(self);     
+}     
+```     
+id objc_getMetaClass(const char *name);     
+```     
+Returns the metaclass definition of a specified class.     
+```     
 ### **Reference**  
 https://cloud.tencent.com/developer/article/1156752    
 https://www.jianshu.com/p/fa66c8be42a2    
