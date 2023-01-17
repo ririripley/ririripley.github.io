@@ -262,8 +262,9 @@ This observer has the lowest priority which makes sure that its handlers are exe
 ```
 What is the difference between @synthesize and @dynamic for properties?  
 ```
-1)  @synthesize will generate setter and getter method for you in compile time.  
-2)  @dynamic is usually used to avoid warnings about methods missing at compile time. It tells the compiler that the setter and getter method  
+1)  @synthesize will generate setter and getter method for you in compile time.  Usually, when we define @property, the   
+system will automatically help us add corresponding @synthesize.    
+2)  @dynamic is usually used to avoid warnings about methods missing at compile time. It tells the compiler that the setter and getter method    
 is defined somewhere else(Some accessors are created dynamically at runtime or defined by super class).  
 ```
 What will cause BAD_ACCESS?  
@@ -305,3 +306,5 @@ https://juejin.cn/post/6844903703208525838
 https://stackoverflow.com/questions/21802069/explicit-getters-setters-for-properties-mrc   
 https://stackoverflow.com/questions/8382523/setter-and-getter-for-an-atomic-property?lq=1  
 https://www.jianshu.com/p/0afda1f23782  
+https://juejin.cn/post/7032676024412274718   
+

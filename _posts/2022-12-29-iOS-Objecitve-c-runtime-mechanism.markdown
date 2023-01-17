@@ -256,6 +256,12 @@ NSLog(@"%p,%p", sel1,sel2);
 Runtime-test[23738:8888825] 0x1017718a3,0x1017718a3    
 // As you can see, the two SEL are the same one stored in address 0x1017718a3.        
 ```
+Some useful methods for debugging:  
+//Locates and returns the address of the receiver’s implementation of a method so it can be called as a function.    
+- (IMP)methodForSelector:(SEL)aSelector;
+// Describes the instance methods implemented by a class.  
+typedef struct objc_method *Method;  
+Method  _Nonnull * class_copyMethodList(Class cls, unsigned int *outCount);    
 **types**  
 ```
 You can take types as the encoded string result representing the return value as well as the parameter of the method.    

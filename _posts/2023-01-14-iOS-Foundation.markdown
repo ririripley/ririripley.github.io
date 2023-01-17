@@ -1,7 +1,7 @@
 ---
 author: ripley
 comments: false
-date: 2023-01-08 12:11:08+00:00
+date: 2023-01-14 12:11:08+00:00
 layout: post
 slug: iOSDevelopment
 title: iOS Foundation
@@ -11,8 +11,8 @@ categories:
 tags:
 description: Foundation
 ---
-## **Runloop**    
-1)What is the difference between nil、NIL、NSNULL 有什么区别？    
+## **Foundation**    
+1)What is the difference between nil、NIL、NSNULL？      
 ```    
 typedef struct objc_class *Class;    
     
