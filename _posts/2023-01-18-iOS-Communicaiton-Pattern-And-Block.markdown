@@ -1,16 +1,16 @@
----    
-author: ripley    
-comments: false    
+---
+author: ripley
+comments: false
 date: 2023-01-18 12:11:08+00:00    
-layout: post    
-slug: iOSDevelopment    
-title: Communication Patterns & Block    
-wordpress_id: 304    
-categories:    
-- Tech    
-tags:    
-description: Common Communication Patterns And Block    
----    
+layout: post
+slug: iOSDevelopment
+title: Communication Patterns And Block
+wordpress_id: 304
+categories:
+- Tech
+tags:
+description: Common Communication Patterns And Block
+---
 ## **NSNotification**    
 1)NSNotificationCenter    
 Each running app has a defaultCenter notification center, and you can create new notification centers to      
