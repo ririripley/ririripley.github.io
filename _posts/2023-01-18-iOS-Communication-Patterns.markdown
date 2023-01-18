@@ -1,22 +1,22 @@
 ---
 author: ripley
 comments: false
-date: 2023-01-18 12:11:08+00:00
+date: 2023-01-18 08:11:08+00:00
 layout: post
 slug: iOSDevelopment
-title: iOS Communication Patterns
+title: iOS Communication Patterns And Block
 wordpress_id: 304
 categories:
 - Tech
 tags:
 description: Communication Patterns And Block
----
-## **NSNotification**    
+--- 
+## **NSNotification**   
 1)NSNotificationCenter    
 Each running app has a defaultCenter notification center, and you can create new notification centers to      
 organize communications in particular contexts.      
-![avatar](https://ririripley.github.io/assets/img/NSNotificationCenter.png)    
-1.1)Add Observer    
+![avatar](https://ririripley.github.io/assets/img/NSNotificationCenter.png)       
+1.1)Add Observer
 ```    
 typedef NSString *NSNotificationName;    
     
@@ -29,7 +29,7 @@ addObserver and remove observer in the same number of times.
 ```    
 Inside NSNotificationCenter, there are three data structs: Named Table, Nameless Table and Wildcard.    
 Named Table    
-![avatar](https://ririripley.github.io/assets/img/Named-table.png)    
+![avatar](https://ririripley.github.io/assets/img/Named-table.png)     
 ```    
 NamedTable{    
     Key: NSNotificationName    
@@ -49,10 +49,10 @@ e.g.
      NSLog(@"%@",notification.object);    
 }    
 ```    
-    
+
 Attention, when the parameter object is nil, the system will automatically generate a key and store the observers      
 with nil object in the table. The observers in this table will receive all the notifications of the name NSNotificationName.    
-For example,    
+For example,
 ```    
 self.name = @"Tom";    
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test1) name:@"lala" object:_name];    
@@ -66,7 +66,7 @@ _name = @"lala";
 [[NSNotificationCenter defaultCenter] postNotifcationName:"lala" object:_name]; // Since name changed, only test2 is called.     
 ```    
 Nameless Table    
-![avatar](https://ririripley.github.io/assets/img/Nameless-table.png)    
+![avatar](https://ririripley.github.io/assets/img/Nameless-table.png)   
 ```    
 When the parameter name is nil, use nameless table.     
 NamelessTable{    
@@ -74,7 +74,7 @@ NamelessTable{
     Value: observer linked list    
 }    
 ```    
-Wildcard    
+Wildcard
 ```    
 A linked list. When the parameter object and name is nil, observers will be added to this linked list.      
 All the observers in wildcard can receive all NSNotifications.      
@@ -82,13 +82,13 @@ All the observers in wildcard can receive all NSNotifications.
 To summarize, the observer will be stored based on the parameters.    
 When name is not nil, use named table.    
 When name is nil, if object is not nil, use nameless table using object as key, otherwise, use wildcard.    
-1.2)Notify Observer    
+1.2)Notify Observer
 ```    
 - (void)postNotificationName:(NSNotificationName)aName // The name of the notification.    
   object:(id)anObject //The object posting the notification.    
   userInfo:(NSDictionary *)aUserInfo; // A user info dictionary with optional information about the notification.    
 ```    
-The process of notifying observers:    
+The process of notifying observers:
 ```    
 1) Initialize an array which is used to store observers.     
 2) Traversal wildcard linked list and add all the observers to the observer array.     
@@ -106,13 +106,13 @@ in a synchronized way. Then comes the question: how to post notification asynchr
 A notification center buffer. A notification queue maintains notifications in first in, first out (FIFO) order.    
 When a notification moves to the front of the queue, the queue posts it to the notification center, which in turn dispatches    
 the notification to all objects registered as observers.    
-Every thread has a default notification queue, which is associated with the default notification center for the process.    
-    
+Every thread has a default notification queue, which is associated with the default notification center for the process.
+
 NSNotificationQueue works depending on run loop:    
 Whereas a notification center distributes notifications when posted,    
-notifications placed into the queue can be delayed until the end of the current pass through the run loop or until the run loop is idle.    
-    
-Duplicate notifications can be coalesced so that only one notification is sent although multiple notifications are posted.    
+notifications placed into the queue can be delayed until the end of the current pass through the run loop or until the run loop is idle.
+
+Duplicate notifications can be coalesced so that only one notification is sent although multiple notifications are posted.
 ```    
 Adds a notification to the notification queue with a specified posting style, criteria for coalescing, and run loop mode.    
 - (void)enqueueNotification:(NSNotification *)notification  // The notification to add to the queue.    
@@ -120,7 +120,7 @@ Adds a notification to the notification queue with a specified posting style, cr
                coalesceMask:(NSNotificationCoalescing)coalesceMask //The constants that specify how notifications are coalesced.     
                    forModes:(NSArray<NSRunLoopMode> *)modes; //The list of modes the notification may be posted in.     
 ```    
-Example:    
+Example:
 ```    
 #import "NotificationViewController.h"    
 #define NOTIFICATIONNAME @"NSNotificationCenter__"    
@@ -163,9 +163,9 @@ Example:
 接收到消息==<NSThread: 0x600002b84680>{number = 1, name = main}    
 睡眠5秒      
 ```    
-## **Delegate**    
+## **Delegate**
 1)Delegate is usually describes with weak to avoid reference cycle.    
-2)What is the difference between **Delegate** and **Observer** Mode    
+2)What is the difference between **Delegate** and **Observer** Mode
 ```    
 Delegate mode: better for one-to-one reltionship    
 Observer mode: better for one-to-many reltionship    
@@ -173,10 +173,10 @@ Observer mode: better for one-to-many reltionship
 Delegate mode has higher couping while observer mode has lower one.     
 FYI, coupling refers to how related or dependent two classes/modules are toward each other.    
 ```    
-## **KVO**    
+## **KVO**
 1)addObserver:forKeyPath:options:context:    
 // This method does not maintain strong references to the observing object, the observed objects, or the context.    
-// Registering an observer multiple times causes receiving notifications multiple times.    
+// Registering an observer multiple times causes receiving notifications multiple times.
 ```    
 //Registers the observer object to receive KVO notifications for the key path relative to the object receiving this message.    
 (void)addObserver:(NSObject *)observer   // The object to register for KVO notifications.    
@@ -184,7 +184,7 @@ FYI, coupling refers to how related or dependent two classes/modules are toward 
           options:(NSKeyValueObservingOptions)options // A combination of the NSKeyValueObservingOptions values that specifies what is included in observation notifications.     
           context:(void *)context; // Arbitrary data that is passed to observer in observeValueForKeyPath:ofObject:change:context:.    
 ```    
-2)Example:    
+2)Example:
 ```    
 #import <Foundation/Foundation.h>    
 @interface Person : NSObject    
@@ -220,7 +220,7 @@ FYI, coupling refers to how related or dependent two classes/modules are toward 
 ```    
 As can be seen, person1 property change is notified.      
 3)How does it work?    
-When p1 receives the message **addObserver:forKeyPath:options:context:**, what is happening under the hood?    
+When p1 receives the message **addObserver:forKeyPath:options:context:**, what is happening under the hood?
 ```    
 1)The isa pointer of p1 changes from Person Class object to NSKVONotifyin_Person class object.     
 2)The pseudo code of NSKVONotifyin_Person class.     
@@ -251,9 +251,9 @@ In summarize, when call ****addObserver:forKeyPath:options:context:**** method, 
 and get the instance object's isa pointer pointed to the generated subclass.  When the property of the instance object changes,      
 the observer will be sent **observeValueForKeyPath:ofObject:change:context:** message.    
 We can notice that, **willChangeValueForKey:** and **didChangeValueForKey:** can also be manually called. And also,    
-if we directly modify the member variables (i.e. _age = 10), KVO does not work since it does not elicit set method.    
+if we directly modify the member variables (i.e. _age = 10), KVO does not work since it does not elicit set method.
 4) Pitfalls About KVO    
-   4.1) In cases of inheritance, how to decide which class object to handle the change?    
+   4.1) In cases of inheritance, how to decide which class object to handle the change?
 ```       
 // Solution : Check whether the observing object is the one we want, otherwise, throw it to super class.     
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{    
@@ -272,7 +272,7 @@ the original implementaion of **addObserver** and **removeObserver** method.
 NSObject {    
 // Returns a pointer that identifies information about all of the observers that are registered with the observed object.    
 @property void *observationInfo;    
-}    
+}
 ```     
 // NSObject+SafeKVO.h    
 @interface NSObject (SafeKVO)    
@@ -353,9 +353,9 @@ NSObject {
 If the value of one property depends on that of one or more other attributes in another object or the value    
 of one attribute changes, then the value of the derived property should also be flagged for change, we can    
 ensure that key-value observing notifications are posted by registering dependent keys.    
-// Returns a set of key paths for properties whose values affect the value of the specified key.    
+// Returns a set of key paths for properties whose values affect the value of the specified key.
 + (NSSet<NSString *> *)keyPathsForValuesAffectingValueForKey:(NSString *)key;    
-  Here is an example:    
+  Here is an example:
 ```    
 @interface Person : NSObject    
     
@@ -371,12 +371,12 @@ ensure that key-value observing notifications are posted by registering dependen
     
 @end      
 ```    
-The relationship graph can be described as follows:    
+The relationship graph can be described as follows:
 ```    
 Student.information = f(person.name, person.age)    
 ```    
 The dependent keys are person.name and person.age, and we want to observe the information change of a Student instance object.    
-Here is the implementation:    
+Here is the implementation:
 ```    
 @implementation Student    
 - (instancetype)init {    
@@ -433,17 +433,17 @@ Here is the implementation:
 OBSERVE : old infomation = student_name = Charlie | student_age = 30 | new infomation = student_name = Vivian | student_age = 30    
  OBSERVE : old infomation = student_name = Vivian | student_age = 30 | new infomation = student_name = Vivian | student_age = 40        
 ```    
-## **KVC**    
+## **KVC**
 1)NSKeyValueCoding    
 A mechanism by which you can access the properties of an object indirectly by name or key.    
-2)Get Value    
+2)Get Value
 - valueForKey:    
-  Returns the value for the property identified by a given key.    
+  Returns the value for the property identified by a given key.
 - valueForKeyPath:    
-  Returns the value for the derived property identified by a given key path.    
+  Returns the value for the derived property identified by a given key path.
 - valueForUndefinedKey:    
   Invoked by valueForKey: when it finds no property corresponding to a given key.    
-  3)Set Value    
+  3)Set Value
 ```      
 1.Try to call the set method corresponding to the key.     
 1.1)If the key corresponds to a NSObject pointer, execute assign the value directly.    
@@ -455,14 +455,14 @@ then go looking for member variable with name _key, _isKey, key, isKey. For exam
 3.If both STEP 2 and STEP 3 fail, setValue:forUndefinedKey: will be called which by default throws NSUndefinedKeyException error.      
 ```        
 - setValue:forKey:    
-  Sets the property of the receiver specified by a given key to a given value.    
+  Sets the property of the receiver specified by a given key to a given value.
 - setValue:forUndefinedKey:    
-  Invoked by setValue:forKey: when it finds no property for a given key.    
+  Invoked by setValue:forKey: when it finds no property for a given key.
 - setValue:forKeyPath:    
-  Sets the value for the property identified by a given key path to a given value.    
+  Sets the value for the property identified by a given key path to a given value.
 - setNilValueForKey:    
   Invoked by setValue:forKey: when it’s given a nil value for a scalar value (such as an int or float).    
-4)Example    
+  4)Example
 ```          
 @interface Student : NSObject    
 @property(nonatomic,copy)NSString *name;    
@@ -513,9 +513,9 @@ setNilValueForKey age -- 0
 age: 0    
 myname: myname     
 ```    
-### **Block**    
+### **Block**
 1)Variable Capture    
-Example:    
+Example:
 ```    
 int global_i = 1;    
 static int static_global_j = 2;    
@@ -572,35 +572,35 @@ As shown in the example, there are 4 types of var:
 global var:  global_i (stored in data section)    
 static global var: static_global_j  (stored in data section)    
 static local var: static_k (stored in data section)    
-local var: val (stored in stack)    
+local var: val (stored in stack)
 ```    
 1) static global variable, global variable are stored in data section, which can be accessed any where     
 2）static local variable, the block store its address (int *static_k = &static_k)    
 3) local variable, the block just copy the value to an internal read-only variable (int val = _val) // shallow copy      
 ```    
 2)Block Type    
-_NSConcreteStackBlock    
+_NSConcreteStackBlock
 ```    
 Block which only uses local var, no strong reference (once stack is pop, life ends)    
 ```    
-_NSConcreteMallocBlock    
+_NSConcreteMallocBlock
 ```    
 Block which uses strong reference  (livelihood :Depend on developers, once released, life ends)    
 ```    
-_NSConcreteGlobalBlock    
+_NSConcreteGlobalBlock
 ```    
 Block which only uses global or static var, no strong reference, (livelihood :from Created to Termination of the program)    
 ```    
 3)Variable Storage in Block    
 3.1)Under ARC environment, in most of the cases, we don't need to manually copy the block from stack to heap. The compiler automatically detects and does that for us.    
-So, in what situation can't the compiler detect it?    
+So, in what situation can't the compiler detect it?
 ```    
 The answer is when a Block is passed as an argument for methods or functions.     
 But if the method or the function copies the argument inside, the caller doesn’t need to copy it manually in following cases:      
 1)Cocoa Framework methods, the name of which includes “usingBlock”    
 2)Grand Central Dispatch API    
 ```    
-3.2)Non-id Type Var Storage    
+3.2)Non-id Type Var Storage
 ```    
 1)Under MRC environment, unless we manually call **copy**, the block will stay in stack, and the __block variable it    
 capture will also have __forwarding referring to itself in the stack.    
@@ -608,22 +608,22 @@ capture will also have __forwarding referring to itself in the stack.
 so that the Block takes ownership of the __block variable. When the __block variable on the heap is disposed of,     
 the _Block_object_dispose function is called to release the object in the __block variable.    
 ```    
-3.2)Id Type Var Storage    
+3.2)Id Type Var Storage
 ```    
 _Block_object_assign    
 ```    
-The function assigns the object to the member variable and calls a function, which is equivalent to the retain method.    
+The function assigns the object to the member variable and calls a function, which is equivalent to the retain method.
 ```    
 _Block_object_dispose    
 ```    
-The function calls a function, which is equivalent to the instance method “release”, on the object in the target member variable of the struct.    
+The function calls a function, which is equivalent to the instance method “release”, on the object in the target member variable of the struct.
 ```    
 ```    
 3.2.1)Under ARC environment, when an automatic variable of id or object type is captured for a Block and the Block is copied from the stack to the heap,    
 the _Block_object_assign function is called so that the Block takes ownership of the captured object. It is just like an object,    
 which is assigned to the object type automatic variable with a __strong qualifier, is used inside a Block.    
 When the block on the heap is disposed of, the _Block_object_dispose function is called to release the captured object.    
-When an automatic variable of id or object type with a __strong qualifier has a __block specifier, the same thing happens.    
+When an automatic variable of id or object type with a __strong qualifier has a __block specifier, the same thing happens.
 ```    
 struct __Block_byref_obj_0 {     
   void *__isa;    
@@ -651,8 +651,8 @@ __Block_byref_obj_0 obj = {
 3.2.2)Under MRC environment,  the Block take ownership of the captured object, instead, it just copies the value of the id.    
 4)dispatch_block_t    
 //The prototype of blocks submitted to dispatch queues, which take no arguments and have no return value.    
-typedef void (^dispatch_block_t)(void);    
-### **Reference**    
+typedef void (^dispatch_block_t)(void);
+### **Reference**
 https://eezytutorials.com/ios/nsnotificationcenter-by-example.php#.Y8TYouxByrM    
 https://www.jianshu.com/p/4a44b9a15fe9    
 https://imlifengfeng.github.io/article/509/    
