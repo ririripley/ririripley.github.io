@@ -1,15 +1,15 @@
 ---
 author: ripley
 comments: false
-date: 2023-01-18 12:11:08+00:00    
+date: 2023-01-18 12:11:08+00:00
 layout: post
 slug: iOSDevelopment
-title: Communication Patterns And Block
+title: iOS Communication Patterns And Block
 wordpress_id: 304
 categories:
 - Tech
 tags:
-description: Common Communication Patterns And Block
+description: Communication Patterns And Block
 ---
 ## **NSNotification**    
 1)NSNotificationCenter    
