@@ -4,7 +4,7 @@ comments: false
 date: 2023-02-18 08:11:08+00:00
 layout: post
 slug: iOSDevelopment
-title: Build And Running An App
+title: Build And Launch An App
 wordpress_id: 304
 categories:
 - Tech
