@@ -98,15 +98,100 @@ objc_sync_exit -> phread_mutex unlock
 Based on the mechanism of @synchronized, it can be indicated that the efficiency of @synchronized is low due to the    
 search in hash table.  
 ```      
-4)condition variables  
-pthread_cond_wait     
-pthread_cond_signal  
+4)condition variables   
+pthread_cond_wait  
+```      
+pthread_cond_wait(cond,	mutex)
+Pseudo-code      
+1. unlock mutex  
+2. block on cond  
+pthread_cond_wait() returns with the mutex locked, thus you must unlock the mutex to allow its use somewhere else when finished with it.
+```      
+pthread_cond_signal
+```   
+pthread_cond_signal(cond)  
+Pseudo-code      
+Wake up a thread blocked on cond  
+```   
+Explanantion:Reference[1][2][3]    
 ```      
 pthread_cond_wait:  
 put the calling thread in the waiting thread list, and release the lock. When this methods return, obtain the lock again.    
 pthread_cond_signal:  activate one of the waiting threads.    
 pthread_cond_broadcast:  activate all of the waiting threads.    
 ```
+Example:  
+```     
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <unistd.h>
+
+pthread_mutex_t	mutex;
+bool saidHello = false;
+pthread_cond_t count_threshold_cv;
+void* sayHello(void	*arg){
+pthread_mutex_lock(&mutex);
+
+    if(!saidHello) {
+        std::cout<< "hello" << std::endl;
+        saidHello = true;
+        pthread_cond_signal(&count_threshold_cv);
+        std::cout<< "already signal" << std::endl;
+    }
+    sleep(5);
+    pthread_mutex_unlock(&mutex);
+    return NULL;
+}
+
+void* sayBye(void *arg){
+pthread_mutex_lock(&mutex);
+while(!saidHello) {
+/// Since sayHello does not immediately unlock mutext after signaling, pthread_cond_wait does not return immediately after 
+/// it is waken, instead, it returns until it obtains the lock 
+pthread_cond_wait(&count_threshold_cv, &mutex);
+std::cout<< "finally obtain the lock" << std::endl;
+}
+std::cout << "bye" << std::endl;
+pthread_mutex_unlock(&mutex);
+return	NULL;
+}
+
+int main (int argc, char *argv[])
+{
+long t1=1, t2=2, t3=3;
+
+    pthread_t threads[2];
+
+    pthread_attr_t attr;
+    pthread_mutex_init(&mutex, NULL);
+    pthread_cond_init (&count_threshold_cv, NULL);
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+    pthread_create(&threads[1], &attr, sayBye, (void *)t2);
+
+    sleep(1);
+
+    pthread_create(&threads[0], &attr, sayHello, (void *)t1);
+    for (int i=0; i<2; i++) {
+        pthread_join(threads[i], NULL);
+    }
+    pthread_attr_destroy(&attr);
+    pthread_mutex_destroy(&mutex);
+
+    pthread_cond_destroy(&count_threshold_cv);
+
+    pthread_exit(NULL);
+    std::cout<< "done" << std::endl;
+}
+// The printing result is :
+hello
+already signal
+finally obtain the lock
+bye 
+```     
+
 4.1)NSCondition is actually an encapsulation of  pthread_cond.    
 ```
 init:   
@@ -122,23 +207,26 @@ pthread_cond_init(cond, nil)
 4.2)NSConditionLock is actually an encapsulation of NSCondition.        
 ```
 NSConditionLock makes use of NSCondition wait and broadcast function and while loop combined with a NSInteger     
-variables to make sure the execution order of tasks in multiple threads.  
+variables value checking to make sure the execution order of tasks in multiple threads.  
 ``` 
 init  
 internal var _cond = NSCondition()  
 internal var _value: Int  
 -void unlock;  
 ``` 
+// wake up thread and set condition value    
 open func unlock(withCondition condition: Int) {    
-_cond.lock()    
-_thread = nil  
-_value = condition  
-_cond.broadcast()  
-_cond.unlock()  
+    _cond.lock()    
+    _thread = nil  
+    _value = condition  
+    _cond.broadcast()  
+    _cond.unlock()  
 }  
 ``` 
 -void lock;  
 ``` 
+// when condition is satisfied, the thread will block until specified time, if time's up or  
+// condition is no more satisfied, the thread will wake up.   
 open func lock(whenCondition condition: Int, before limit: Date) -> Bool {    
     _cond.lock()  
     while _thread != nil || _value != condition {  
@@ -474,12 +562,9 @@ http://blog.chinaunix.net/uid-11572501-id-3456343.html
 https://juejin.cn/post/7031564506908082183  
 https://juejin.cn/post/6844904085980725255  
 https://juejin.cn/post/6844904097326465038   
-
-
-
-
-
-
-
+https://blog.csdn.net/Joogle/article/details/8010245  
+[1^] http://blog.vladimirprus.com/2005/07/spurious-wakeups.html  
+[2^] https://stackoverflow.com/questions/14924469/does-pthread-cond-waitcond-t-mutex-unlock-and-then-lock-the-mutex  
+[3^] https://blog.csdn.net/Joogle/article/details/8010245
 
 
