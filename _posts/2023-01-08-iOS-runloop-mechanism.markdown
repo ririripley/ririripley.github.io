@@ -270,6 +270,11 @@ On receiving messages from mach port, the run loop of the main thread of the App
 __IOHIDEventSystemClientQueueCallback() will generate source0 which further trigger source0 callback: **_UIApplicationHandleEventQueue**.   
 _UIApplicationHandleEventQueue() will convert IOHIDEvent to UIEvent and dispatch them to UIWindow by [UIApplication sendEvent:] method. Then comes the hit-test    
 procress to find the first responder and dispatching UIEvent to it.   
+By the way, let me explain the difference between Source0 and Source1 events here.  
+1)Source0 is system-level events based on mach-port. Mach-port is a method of commnunication among threads and process.   
+Therefore, messages sending and receiving through mach-port are taken as Source0 events.  
+2)Source1 is application-level events which are not based on mach-port. It means the messages are not sent or received  
+through mach-port. Source1 events are usually dealt by the app itself like hit-test and send-event mechanism.   
 ``` 
 SpringBoard.app will send messages to current app. The run loop of the main thread of the app wakes up.   
 Then the run loop notifies the observers that it is about to trigger timer handler.    
@@ -311,7 +316,8 @@ will exit.
 ```   
 Source0：touch event by the users (non-port based)   
 Source1：port-based  communication among kernel, threads   
-(Source 1 sometimes will dispatch some event in source 0)   
+Source 1 sometimes will dispatch some event in source 0. For example, SpringBoard.app sends touch events through mach port   
+to an active app, the source1 handler of the run loop of the active app will generate source0 events.   
 ```   
 8.3)Mode Switch:     
 For example, when scrolling the textfield, the mode of the run loop will switch to **UITrackingRunLoopMode** automatically.    
@@ -1010,3 +1016,4 @@ https://www.avadirect.com/blog/frame-rate-fps-vs-hz-refresh-rate/
 https://juejin.cn/post/6844904110991360008#heading-20    
 https://www.jianshu.com/p/ee62bbf38559    
 https://juejin.cn/post/6844904110991360008    
+https://blog.csdn.net/u014600626/article/details/105146577    
