@@ -134,9 +134,10 @@ time for the app to deal with source0 events:
 hit-test to find the first responder -> UIWindow sentEvent to the first responder ->  responder chain  ->  gr recognized and intecepted the responder chain ->    
 gr marked as dirty ->  _UIGestureRecognizerUpdateObserver()(BeforeWaiting) in the run loop execute the callback of dirty gr   
 3) How does UI refresh?  
-BNRDrawView setNeedsDisplay -> BNRDrawView marked as dirty -> _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv()(BeforeWaiting) in the run loop    
+![avatar](https://ririripley.github.io/assets/img/UI_refresh_in_run_loop.png)      
+BNRDrawView setNeedsDisplay -> BNRDrawView marked as dirty -> _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv()(BeforeWaiting) in the run loop          
 traverse the dirty View / CALayer and execute their drawRect method.    
-### **Reference**
-https://blog.csdn.net/qq_28551705/article/details/83989115  
-https://github.com/ririripley/ririripley.github.io/blob/master/_posts/2023-01-08-iOS-runloop-mechanism.markdown  
+### **Reference**  
+https://blog.csdn.net/qq_28551705/article/details/83989115    
+https://github.com/ririripley/ririripley.github.io/blob/master/_posts/2023-01-08-iOS-runloop-mechanism.markdown    
 
