@@ -109,3 +109,34 @@ needsDisplay immediately and execute their corresponding methods: upadteConstrai
 done before the layoutIfNeeded method returns. Using setNeedsDisplay, setNeedsLayout, setNeedsUpdateConstraints will mark corresponding  
 symbols but actions will not execute until next update cycle.            
 ```
+How does the gesture recognizer and UI refresh under the hood?      
+```
+Here I assume you have a basic understanding about run loop mechanism. The following figures show the calling stack about the gesture         
+recognizer and UI refresh:                
+```
+The is the view hierarchy and settings of the app.   
+![avatar](https://ririripley.github.io/assets/img/view_hierarchy.png)     
+1) How touch events are intercepted by the gesture recognizer?  
+When we try to apply pan gesture within the scope of the white view(BNRDrawView), here is what happens:  
+![avatar](https://ririripley.github.io/assets/img/gr_interception.png)    
+As can be seen from the log, all three views has received the touch:begin message, but when the gesture recognizer of the  
+blue view(superView) has been recognized, all three views has received the touch:cancel message and after that, all touch events are no more   
+sent to these views but only handled by the gesture recognizer. And the view of UITouch(orignally BNRDrawView since it is the first responder in the hit-test)          
+is also set to nil since the gr has been recognized.    
+2) How are gesture recognizers handled?  
+![avatar](https://ririripley.github.io/assets/img/source1_hit_test_mechanism_in_run_loop.png)     
+![avatar](https://ririripley.github.io/assets/img/source1_hit_test_mechanism_in_run_loop_2.png)  
+![avatar](https://ririripley.github.io/assets/img/source1_responder_chain_in_run_loop.png)      
+![avatar](https://ririripley.github.io/assets/img/gr_in_run_loop.png)  
+When we swiped the screen on the top of BNRDrawView, SpringBoard.app will send the touch events to the app through mach port. At this time, if the app is    
+sleeping, it will wake up and deal with the source1 event. The source1 handler will generate source0 event by converting touch events to UIEvent. Then it is     
+time for the app to deal with source0 events:    
+hit-test to find the first responder -> UIWindow sentEvent to the first responder ->  responder chain  ->  gr recognized and intecepted the responder chain ->    
+gr marked as dirty ->  _UIGestureRecognizerUpdateObserver()(BeforeWaiting) in the run loop execute the callback of dirty gr   
+3) How does UI refresh?  
+BNRDrawView setNeedsDisplay -> BNRDrawView marked as dirty -> _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv()(BeforeWaiting) in the run loop    
+traverse the dirty View / CALayer and execute their drawRect method.    
+### **Reference**
+https://blog.csdn.net/qq_28551705/article/details/83989115  
+https://github.com/ririripley/ririripley.github.io/blob/master/_posts/2023-01-08-iOS-runloop-mechanism.markdown  
+
