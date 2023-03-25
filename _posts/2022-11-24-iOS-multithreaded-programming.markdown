@@ -105,6 +105,7 @@ pthread_cond_wait(cond,	mutex)
 Pseudo-code      
 1. unlock mutex  
 2. block on cond  
+(1 + 2: atomic operation)  
 pthread_cond_wait() returns with the mutex locked, thus you must unlock the mutex to allow its use somewhere else when finished with it.
 ```      
 pthread_cond_signal
@@ -113,7 +114,8 @@ pthread_cond_signal(cond)
 Pseudo-code      
 Wake up a thread blocked on cond  
 ```   
-Explanantion:Reference[1][2][3]    
+Explanantion:Reference[1][2][3]  
+https://blog.51cto.com/u_4042309/3600115      
 ```      
 pthread_cond_wait:  
 put the calling thread in the waiting thread list, and release the lock. When this methods return, obtain the lock again.    
@@ -145,18 +147,18 @@ pthread_mutex_lock(&mutex);
     return NULL;
 }
 
-void* sayBye(void *arg){
-pthread_mutex_lock(&mutex);
-while(!saidHello) {
-/// Since sayHello does not immediately unlock mutext after signaling, pthread_cond_wait does not return immediately after 
-/// it is waken, instead, it returns until it obtains the lock 
-pthread_cond_wait(&count_threshold_cv, &mutex);
-std::cout<< "finally obtain the lock" << std::endl;
-}
-std::cout << "bye" << std::endl;
-pthread_mutex_unlock(&mutex);
-return	NULL;
-}
+void* sayBye(void *arg){  
+pthread_mutex_lock(&mutex);    
+while(!saidHello) {  
+    /// Since sayHello does not immediately unlock mutext after signaling, pthread_cond_wait does not return immediately after     
+    /// it is waken, instead, it returns until it obtains the lock   
+    pthread_cond_wait(&count_threshold_cv, &mutex);  
+}  
+std::cout<< "finally obtain the lock" << std::endl;  
+std::cout << "bye" << std::endl;  
+pthread_mutex_unlock(&mutex);  
+return	NULL;  
+}  
 
 int main (int argc, char *argv[])
 {

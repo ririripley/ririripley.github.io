@@ -299,7 +299,11 @@ When objc_autoreleasePoolPush is excuted, atautoreleasepoolobj is added to the t
 When objc_autoreleasePoolPush is pop, all the id on top of atautoreleasepoolobj will be sent release method, and NEXT pointer  
 will point to the top of the last pool.    
 ```
-
+How does dispatch_once work?
+```
+https://www.jianshu.com/p/a4307617a26d  
+atmoic assignment + dispatch_barrier + sleep  
+```
 ### **Reference**
 https://choujiji.github.io/2019/08/20/%E4%BD%BF%E7%94%A8__weak%E5%8F%98%E9%87%8F%EF%BC%8C%E6%8C%87%E5%90%91%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%B0%B1%E4%BC%9A%E8%A2%AB%E5%8A%A0%E5%88%B0autoreleasepool%E4%B8%AD%EF%BC%9F/  
 https://juejin.cn/post/6844903703208525838   

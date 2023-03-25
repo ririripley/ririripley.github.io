@@ -569,10 +569,10 @@ int main(int argc, const char * argv[]) {
 }    
 ```    
 As shown in the example, there are 4 types of var:    
-global var:  global_i (stored in data section)    
-static global var: static_global_j  (stored in data section)    
-static local var: static_k (stored in data section)    
-local var: val (stored in stack)
+global var:  global_i (stored in data section)    // no capture but use directly since it exists in the whole life of the program    
+static global var: static_global_j  (stored in data section)    // no capture but use directly since it exists in the whole life of the program    
+static local var: static_k (stored in data section)    // captured by refrence copy     
+local var: val (stored in stack)  // captured by value copy  
 ```    
 1) static global variable, global variable are stored in data section, which can be accessed any where     
 2）static local variable, the block store its address (int *static_k = &static_k)    
@@ -591,7 +591,18 @@ _NSConcreteGlobalBlock
 ```    
 Block which only uses global or static var, no strong reference, (livelihood :from Created to Termination of the program)    
 ```    
-3)Variable Storage in Block    
+3)Variable Storage in Block and __block
+Variable Storage in Block:  
+```  
+1) automatic variables (i.e. integer): value copy      
+2) __block variables : __block->forwarding reference copy        
+3) objects : reference copy       
+```
+Variable Storage in __block:    
+```  
+1) automatic variables (i.e. integer): value copy                    
+3) objects : id value copy : strong / weak  
+```
 3.1)Under ARC environment, in most of the cases, we don't need to manually copy the block from stack to heap. The compiler automatically detects and does that for us.    
 So, in what situation can't the compiler detect it?
 ```    
