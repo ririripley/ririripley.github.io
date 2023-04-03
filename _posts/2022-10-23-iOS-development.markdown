@@ -109,7 +109,8 @@ needsDisplay immediately and execute their corresponding methods: upadteConstrai
 done before the layoutIfNeeded method returns. Using setNeedsDisplay, setNeedsLayout, setNeedsUpdateConstraints will mark corresponding  
 symbols but actions will not execute until next update cycle.            
 ```
-How does the gesture recognizer and UI refresh under the hood?      
+How does the gesture recognizer and UI refresh under the hood?    
+![avatar](https://ririripley.github.io/assets/img/iOSAppRenderProcess.png)  
 ```
 Here I assume you have a basic understanding about run loop mechanism. The following figures show the calling stack about the gesture         
 recognizer and UI refresh:                
