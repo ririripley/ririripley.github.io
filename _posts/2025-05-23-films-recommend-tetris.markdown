@@ -1,7 +1,7 @@
 ---
 author: ripley
 comments: false
-date: 2023-03-23 16:02:08+00:00
+date: 2025-05-23 16:02:08+00:00
 layout: post
 slug: Tetris
 title: Tetris
