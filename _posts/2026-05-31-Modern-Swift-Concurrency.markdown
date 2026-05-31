@@ -3,7 +3,7 @@ author: ripley
 comments: false
 date: 2026-05-31 12:12:08+00:00
 layout: post
-slug: Modern-Swift-Concurrency
+slug: Modern Swift Concurrency
 title: Modern Swift Concurrency
 wordpress_id: 304
 categories:

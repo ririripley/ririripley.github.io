@@ -3,7 +3,7 @@ author: ripley
 comments: false
 date: 2026-05-31 12:11:08+00:00
 layout: post
-slug: SwiftUI-Basics
+slug: SwiftUI Basics
 title: SwiftUI Basics
 wordpress_id: 304
 categories:
