@@ -4,7 +4,7 @@ comments: false
 date: 2026-05-31 12:11:08+00:00
 layout: post
 slug: iOSDevelopment
-title: iOS SwiftUI
+title: SwiftUI Basics
 wordpress_id: 304
 categories:
 - Tech
