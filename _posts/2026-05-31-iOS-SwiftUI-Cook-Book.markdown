@@ -11,6 +11,71 @@ categories:
 tags:
 description: SwiftUI
 ---
+<style>
+.article_body {
+  color: #243447;
+}
+
+.article_body h1,
+.article_body h2,
+.article_body h3,
+.article_body h4,
+.article_body h5,
+.article_body h6 {
+  color: #111827;
+}
+
+.article_body code {
+  color: #1f2937;
+  background-color: #f6f8fa;
+}
+
+.article_body pre,
+.article_body .highlight {
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+.article_body pre code,
+.article_body .highlight code,
+.article_body .highlight pre {
+  color: inherit;
+  background: transparent;
+}
+
+.article_body .highlight .err,
+.article_body .highlight .esc,
+.article_body .highlight .g,
+.article_body .highlight .l,
+.article_body .highlight .n,
+.article_body .highlight .o,
+.article_body .highlight .x,
+.article_body .highlight .p,
+.article_body .highlight .gd,
+.article_body .highlight .ge,
+.article_body .highlight .gr,
+.article_body .highlight .gh,
+.article_body .highlight .gi,
+.article_body .highlight .gp,
+.article_body .highlight .gs,
+.article_body .highlight .gu,
+.article_body .highlight .gt,
+.article_body .highlight .ld,
+.article_body .highlight .nb,
+.article_body .highlight .nc,
+.article_body .highlight .nd,
+.article_body .highlight .ni,
+.article_body .highlight .ne,
+.article_body .highlight .nl,
+.article_body .highlight .nn,
+.article_body .highlight .nx,
+.article_body .highlight .py,
+.article_body .highlight .ow,
+.article_body .highlight .bp {
+  color: #1f2937;
+}
+</style>
+
 # SwiftUI Introduction
 
 ## Section 1: List, VStack & HStack & VGrid
@@ -2765,4 +2830,3 @@ UIHostingController integration pattern:
   │       │                                                              │
   └──────────────────────────────────────────────────────────────────────┘
 ```
-
