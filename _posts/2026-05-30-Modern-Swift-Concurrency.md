@@ -1,7 +1,7 @@
 ---
 author: ripley
 comments: false
-date: 2026-05-31 12:11:08+00:00
+date: 2026-05-31 12:12:08+00:00
 layout: post
 slug: iOSDevelopment
 title: Modern Swift Concurrency
