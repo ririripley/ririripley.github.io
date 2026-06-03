@@ -2830,3 +2830,173 @@ UIHostingController integration pattern:
   │       │                                                              │
   └──────────────────────────────────────────────────────────────────────┘
 ```
+
+
+## Section 9: How to Attach Gesture Actions to Views
+SwiftUI does not use UIKit-style target-action methods like `addTarget(_:action:for:)` for most view interaction. Instead, you attach behavior directly to the view with closures.
+
+## Button Click Handling
+
+Use `Button` when the view is meant to behave like a button.
+
+```swift
+Button("Save") {
+    saveChanges()
+}
+```
+
+You can also customize the label:
+
+```swift
+Button {
+    saveChanges()
+} label: {
+    Label("Save", systemImage: "tray.and.arrow.down")
+}
+```
+
+This is the closest SwiftUI equivalent to a normal button tap handler.
+
+## `.onTapGesture`
+
+Use `.onTapGesture` when a non-button view should respond to a tap.
+
+```swift
+Text("Tap me")
+    .onTapGesture {
+        print("Text tapped")
+    }
+```
+
+You can attach it to most views:
+
+```swift
+Image(systemName: "heart")
+    .onTapGesture {
+        isFavorite.toggle()
+    }
+```
+
+Prefer `Button` for actions that are semantically buttons. Use `.onTapGesture` for lightweight interactions on views that are not naturally buttons.
+
+## Common SwiftUI Gestures
+
+SwiftUI provides gesture modifiers for common interactions.
+
+```swift
+Text("Double tap")
+    .onTapGesture(count: 2) {
+        print("Double tapped")
+    }
+```
+
+```swift
+Text("Long press")
+    .onLongPressGesture {
+        print("Long pressed")
+    }
+```
+
+For more control, attach a gesture with `.gesture(...)`:
+
+```swift
+Circle()
+    .gesture(
+        DragGesture()
+            .onChanged { value in
+                print(value.translation)
+            }
+            .onEnded { _ in
+                print("Drag ended")
+            }
+    )
+```
+
+Other common gesture types include:
+
+- `TapGesture`
+- `LongPressGesture`
+- `DragGesture`
+- `MagnifyGesture`
+- `RotateGesture`
+
+## `didSelect` Equivalents In `List`
+
+UIKit table views often use `tableView(_:didSelectRowAt:)`. In SwiftUI, selection is usually handled by the row itself.
+
+```swift
+List(items) { item in
+    Text(item.name)
+        .onTapGesture {
+            selectedItem = item
+        }
+}
+```
+
+If the row performs an action, a `Button` inside the `List` is often clearer:
+
+```swift
+List(items) { item in
+    Button {
+        selectedItem = item
+    } label: {
+        Text(item.name)
+    }
+}
+```
+
+## `NavigationLink`
+
+Use `NavigationLink` when selecting a row should navigate to a detail screen.
+
+```swift
+NavigationStack {
+    List(items) { item in
+        NavigationLink(item.name) {
+            ItemDetailView(item: item)
+        }
+    }
+}
+```
+
+This is the standard SwiftUI pattern for "tap a row to show details."
+
+## `List(selection:)`
+
+Use `List(selection:)` when you need persistent list selection, such as in a sidebar or multi-column interface.
+
+```swift
+struct ContentView: View {
+    @State private var selectedItemID: Item.ID?
+
+    var body: some View {
+        List(items, selection: $selectedItemID) { item in
+            Text(item.name)
+                .tag(item.id)
+        }
+    }
+}
+```
+
+For multiple selection, use a `Set`:
+
+```swift
+struct ContentView: View {
+    @State private var selectedItemIDs = Set<Item.ID>()
+
+    var body: some View {
+        List(items, selection: $selectedItemIDs) { item in
+            Text(item.name)
+                .tag(item.id)
+        }
+    }
+}
+```
+
+## Rule Of Thumb
+
+- Use `Button` for normal actions.
+- Use `.onTapGesture` for simple taps on non-button views.
+- Use SwiftUI gesture types for long press, drag, magnify, rotate, and custom gesture behavior.
+- Use `NavigationLink` when tapping a row should navigate.
+- Use `List(selection:)` when the selected row is state that should remain visible or drive another part of the UI.
