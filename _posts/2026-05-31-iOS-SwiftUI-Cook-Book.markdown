@@ -1747,6 +1747,91 @@ When the environment value is an `@Observable` object (iOS 17+), the Observation
 
 ---
 
+
+#### Injecting an `@Observable` Environment Object in SwiftUI
+
+With the `@Observable` macro (iOS 17+), the approach differs from the older `@ObservableObject` pattern:
+
+##### 1. Define your model with `@Observable`
+
+```swift
+@Observable
+class UserSettings {
+    var username = ""
+    var isLoggedIn = false
+}
+```
+
+##### 2. Inject it into the environment
+
+```swift
+@main
+struct MyApp: App {
+    @State private var settings = UserSettings()
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environment(settings)  // NOT .environmentObject()
+        }
+    }
+}
+```
+
+##### 3. Read it in a child view
+
+```swift
+struct ContentView: View {
+    @Environment(UserSettings.self) var settings
+
+    var body: some View {
+        Text("Hello, \(settings.username)")
+    }
+}
+```
+
+##### 4. Binding to `@Observable` environment values
+
+If you need a `Binding` (e.g., for `TextField`), use `@Bindable`:
+
+```swift
+struct ProfileView: View {
+    @Environment(UserSettings.self) var settings
+
+    var body: some View {
+        @Bindable var settings = settings
+        TextField("Username", text: $settings.username)
+    }
+}
+```
+
+---
+
+##### Key Differences from `@ObservableObject`
+
+| Old (`ObservableObject`) | New (`@Observable`) |
+|---|---|
+| `class MyModel: ObservableObject` | `@Observable class MyModel` |
+| `@Published var name = ""` | `var name = ""` |
+| `.environmentObject(model)` | `.environment(model)` |
+| `@EnvironmentObject var model: MyModel` | `@Environment(MyModel.self) var model` |
+
+---
+
+##### Important Notes
+
+- **No `@Published` needed** — `@Observable` tracks property access automatically.
+- **Use `.environment(_:)`** — not `.environmentObject(_:)`.
+- **`@Environment` takes the type** — `@Environment(MyModel.self)`, not a key path.
+- **Preview support:**
+  ```swift
+  #Preview {
+      ContentView()
+          .environment(UserSettings())
+  }
+  ```
+
+
 #### @Binding — Declaration-Based
 
 `@Binding` is a **two-way reference** to a source of truth owned elsewhere. The parent view pushes a new value down the hierarchy. When the underlying source changes, the child view **always** re-evaluates — regardless of whether `body` actually reads the binding's value.
